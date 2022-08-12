@@ -113,7 +113,7 @@ export default function AddressPage({
   };
 
   return (
-    <div className="bg-slate-100 min-h-screen">
+    <div className="bg-slate-100" style={{ minHeight: "calc(100vh - 80px)" }}>
       <Head>
         <title>Etherfunk | Your Ethereum Control Panel</title>
         <meta
@@ -159,8 +159,13 @@ export default function AddressPage({
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                       {fn}
                     </h1>
+
                     <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
-                      Enter data and call this function.
+                      {currentFunction.inputs.length === 0 ? (
+                        <>This function has no inputs.</>
+                      ) : (
+                        <>Enter data and call this function.</>
+                      )}
                     </p>
                   </div>
                 )}
@@ -178,46 +183,45 @@ export default function AddressPage({
 
                     {currentFunction && (
                       <form onSubmit={onSubmit}>
-                        <div className="mb-3">
-                          {currentFunction.inputs.length === 0 && (
-                            <p className="text-slate-500 text-sm">
-                              This function has no inputs.
-                            </p>
-                          )}
-                          {currentFunction.inputs.map((fn: any, i: number) => (
-                            <div key={`${i}-${fn.name}`} className="mb-5">
-                              <div className="flex justify-between">
-                                <label
-                                  htmlFor={`${i}-${fn.name}`}
-                                  className="block text-sm font-medium text-slate-700"
-                                >
-                                  {fn.name || "Unnamed input"}
-                                </label>
-                                <span
-                                  className="text-sm text-slate-500"
-                                  id="email-optional"
-                                >
-                                  {fn.type}
-                                </span>
-                              </div>
-                              <div className="mt-1">
-                                <input
-                                  type="text"
-                                  name={`${i}-${fn.name}`}
-                                  id={`${i}-${fn.name}`}
-                                  className="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-slate-300 rounded-md"
-                                  aria-describedby="email-optional"
-                                  onChange={(e) => {
-                                    const newArgs = [...functionArguments];
-                                    newArgs[i] = e.target.value;
+                        {currentFunction.inputs.length > 0 && (
+                          <div className="mb-3">
+                            {currentFunction.inputs.map(
+                              (fn: any, i: number) => (
+                                <div key={`${i}-${fn.name}`} className="mb-5">
+                                  <div className="flex justify-between">
+                                    <label
+                                      htmlFor={`${i}-${fn.name}`}
+                                      className="block text-sm font-medium text-slate-700"
+                                    >
+                                      {fn.name || "Unnamed input"}
+                                    </label>
+                                    <span
+                                      className="text-sm text-slate-500"
+                                      id="email-optional"
+                                    >
+                                      {fn.type}
+                                    </span>
+                                  </div>
+                                  <div className="mt-1">
+                                    <input
+                                      type="text"
+                                      name={`${i}-${fn.name}`}
+                                      id={`${i}-${fn.name}`}
+                                      className="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-slate-300 rounded-md"
+                                      aria-describedby="email-optional"
+                                      onChange={(e) => {
+                                        const newArgs = [...functionArguments];
+                                        newArgs[i] = e.target.value;
 
-                                    setArguments(newArgs);
-                                  }}
-                                />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+                                        setArguments(newArgs);
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
 
                         <div>
                           {currentFunction.stateMutability === "view" ? (
