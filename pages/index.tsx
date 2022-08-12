@@ -21,18 +21,31 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="h-full">
+        <main className="flex align-center justify-center flex-col h-full">
+          <div>
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-10 text-center">
+                Interact with contracts on Ethereum. Simple.
+              </h1>
 
-      <main className="flex align-center justify-center h-full flex-col">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-10 text-center">
-            Interact with contracts on Ethereum. Simple.
-          </h1>
-
-          <div className="sm:mx-auto sm:w-full sm:max-w-lg">
-            <LoadContractForm onSubmit={onSubmit} />
+              <div className="sm:mx-auto sm:w-full sm:max-w-lg">
+                <LoadContractForm onSubmit={onSubmit} />
+              </div>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+        <footer className="absolute bottom-0 right-0 p-4 text-center w-full">
+          <a
+            href="https://twitter.com/aeolianeth"
+            className="text-sm hover:text-sky-600 text-slate-800"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @aeolianeth
+          </a>
+        </footer>
+      </div>
     </div>
   );
 };
