@@ -133,13 +133,10 @@ export default function AddressPage({
                   fn={fn as string}
                 />
                 {fn && (
-                  <div className="my-10">
-                    <h1 className="text-xl font-bold tracking-tight text-slate-900 ">
+                  <div className="my-5 ">
+                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                       {fn}
                     </h1>
-                    <span className="text-md tracking-tight text-slate-500">
-                      {contractMetadata.name ?? address}
-                    </span>
                   </div>
                 )}
 
@@ -156,9 +153,12 @@ export default function AddressPage({
 
                     {currentFunction && (
                       <form onSubmit={onSubmit}>
-                        <h3 className="text-lg font-medium text-slate-900 mb-2">
+                        <h3 className="text-lg font-medium text-slate-900">
                           Inputs
                         </h3>
+                        <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
+                          This data will be sent with the transaction.
+                        </p>
 
                         <div className="mb-3">
                           {currentFunction.inputs.length === 0 && (
