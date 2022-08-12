@@ -10,7 +10,7 @@ const RenderResult = ({ result }: { result: any }) => {
       </div>
     );
   }
-  console.log(result);
+
   if (
     typeof result === "string" ||
     typeof result === "number" ||

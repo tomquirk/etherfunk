@@ -12,7 +12,6 @@ export default function NetworkProvider({ children }: PropsWithChildren<{}>) {
   >();
 
   useEffect(() => {
-    console.log("here", signingProvider, "signing");
     const updateAddress = async () => {
       const address = await signingProvider?.getSigner().getAddress();
       setConnectedWalletAddress(address);
