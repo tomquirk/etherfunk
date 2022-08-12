@@ -120,12 +120,15 @@ export default function AddressPage({
       </Head>
 
       <header className="p-5 h-20 fixed top-0 w-full flex justify-between items-center bg-white border-b border-slate-200">
-        <div>
+        <div className="flex items-center">
           <Link href="/">
-            <a className="font-extrabold tracking-tight">
+            <a className="font-extrabold tracking-tight mr-2">
               ether<span className="italic">funk</span>.io
             </a>
           </Link>
+          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-900">
+            Beta
+          </span>
         </div>
         <ConnectWalletButton />
       </header>
