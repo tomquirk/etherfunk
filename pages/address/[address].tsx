@@ -9,7 +9,7 @@ import { TransactionButton } from "../../components/TransactionButton";
 import { Button } from "../../components/Button";
 import { readProvider } from "../../constants/network";
 import { Contract } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ResultCard } from "../../components/ResultCard";
 import Breadcrumbs from "../../components/Breadcrumb";
 import Nav from "./Nav";
@@ -83,7 +83,10 @@ export default function AddressPage({
 
   const { address, fn } = router.query;
 
-  const currentFunction = functions.find((f: any) => f.name === fn);
+  const currentFunction = useMemo(
+    () => functions.find((f: any) => f.name === fn),
+    [fn, functions]
+  );
 
   useEffect(() => {
     setResult(undefined);
@@ -95,6 +98,8 @@ export default function AddressPage({
     e.preventDefault();
     try {
       setLoading(true);
+      setErrorMessage(undefined);
+
       const contract = new Contract(address as string, abi, readProvider);
       const res = await contract[currentFunction.name](...functionArguments);
       console.log("RESULT::", res);
@@ -215,6 +220,7 @@ export default function AddressPage({
 
                                         setArguments(newArgs);
                                       }}
+                                      value={functionArguments[i]}
                                     />
                                   </div>
                                 </div>
@@ -227,7 +233,9 @@ export default function AddressPage({
                           {currentFunction.stateMutability === "view" ? (
                             <Button loading={loading}>Read contract</Button>
                           ) : (
-                            <TransactionButton>Submit transaction</TransactionButton>
+                            <TransactionButton>
+                              Submit transaction
+                            </TransactionButton>
                           )}
                         </div>
                         {errorMessage && (
