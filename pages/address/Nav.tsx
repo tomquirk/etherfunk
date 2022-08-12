@@ -47,7 +47,7 @@ export default function Nav({ functions }: { functions: any[] }) {
 
   return (
     <div
-      className="fixed w-96 flex-1 flex flex-col min-h-0 bg-white px-6 py-8 h-full overflow-scroll"
+      className="fixed w-96 flex-1 flex flex-col min-h-0 bg-white px-6 pt-8 h-full overflow-scroll"
       style={{ maxHeight: "calc(100% - 80px)" }}
     >
       <div className="mb-5 px-2">
@@ -91,7 +91,8 @@ export default function Nav({ functions }: { functions: any[] }) {
             )}
           </div>
         </div>
-        <div className="mb-5">
+
+        <div className="mb-2">
           <div className="text-slate-500 uppercase text-xs px-2 font-bold mb-2">
             WRITE
           </div>

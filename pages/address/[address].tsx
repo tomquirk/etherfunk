@@ -78,7 +78,8 @@ export default function AddressPage({
     []
   );
   const [result, setResult] = useState<any>();
-  const [errorMessage, setErrorMessage] = useState<string>("asdasdsd");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { address, fn } = router.query;
 
@@ -93,6 +94,7 @@ export default function AddressPage({
   const onSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const contract = new Contract(address as string, abi, readProvider);
       const res = await contract[currentFunction.name](...functionArguments);
       console.log("RESULT::", res);
@@ -105,6 +107,8 @@ export default function AddressPage({
       } else {
         setErrorMessage((e as Error).message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -140,7 +144,10 @@ export default function AddressPage({
           <>
             <Nav functions={functions} />
 
-            <main className="md:pl-96 flex flex-col flex-1 h-full">
+            <main
+              className="md:pl-96 flex flex-col flex-1 h-full"
+              style={{ maxHeight: "calc(100% - 80px)" }}
+            >
               <div className="px-10 py-4">
                 <Breadcrumbs
                   address={address as string}
@@ -214,7 +221,7 @@ export default function AddressPage({
 
                         <div>
                           {currentFunction.stateMutability === "view" ? (
-                            <Button>Execute</Button>
+                            <Button loading={loading}>Execute</Button>
                           ) : (
                             <TransactionButton>Execute</TransactionButton>
                           )}
