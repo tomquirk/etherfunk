@@ -109,7 +109,7 @@ export default function AddressPage({
   };
 
   return (
-    <div className="h-screen bg-slate-100">
+    <div className="bg-slate-100">
       <Head>
         <title>Etherfunk | Your Ethereum Control Panel</title>
         <meta
@@ -119,7 +119,7 @@ export default function AddressPage({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="p-5 flex justify-between align-center bg-white border-b border-slate-200">
+      <header className="p-5 h-20 fixed top-0 w-full flex justify-between items-center bg-white border-b border-slate-200">
         <div>
           <Link href="/">
             <a className="font-extrabold tracking-tight">
@@ -130,7 +130,7 @@ export default function AddressPage({
         <ConnectWalletButton />
       </header>
 
-      <div>
+      <div className="mt-20">
         {error ? (
           <span>{error}</span>
         ) : (
