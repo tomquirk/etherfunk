@@ -7,12 +7,29 @@ import Link from "next/link";
 import { ConnectWalletButton } from "../../components/ConnectWalletButton";
 import { TransactionButton } from "../../components/TransactionButton";
 import { Button } from "../../components/Button";
+import { readProvider } from "../../constants/network";
+import { resourceLimits } from "worker_threads";
+import { Contract } from "ethers";
+import { useEffect, useState } from "react";
 
-const AddressPage: NextPage = ({ functions }) => {
+const AddressPage: NextPage = ({ functions, abi }) => {
   const router = useRouter();
   const { address, fn } = router.query;
+  const [functionArguments, setArguments] = useState<Array<string | number>>(
+    []
+  );
+  const [result, setResult] = useState<any>();
 
   const currentFunction = functions.find((f: any) => f.name === fn);
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    const contract = new Contract(address as string, abi, readProvider);
+    const res = await contract[currentFunction.name](...functionArguments);
+    console.log("RESULT::", res);
+
+    setResult(res);
+  };
 
   return (
     <div className="h-screen bg-slate-50">
@@ -126,7 +143,7 @@ const AddressPage: NextPage = ({ functions }) => {
             )}
 
             {currentFunction && (
-              <form>
+              <form onSubmit={onSubmit}>
                 <div className="mb-3">
                   {currentFunction.inputs.length === 0 && (
                     <p className="text-slate-500 text-sm">
@@ -137,7 +154,7 @@ const AddressPage: NextPage = ({ functions }) => {
                     <div key={`${i}-${fn.name}`} className="mb-5">
                       <div className="flex justify-between">
                         <label
-                          htmlFor="email"
+                          htmlFor={`${i}-${fn.name}`}
                           className="block text-sm font-medium text-gray-700"
                         >
                           {fn.name || "Unnamed input"}
@@ -151,11 +168,17 @@ const AddressPage: NextPage = ({ functions }) => {
                       </div>
                       <div className="mt-1">
                         <input
-                          type="email"
-                          name="email"
-                          id="email"
+                          type="text"
+                          name={`${i}-${fn.name}`}
+                          id={`${i}-${fn.name}`}
                           className="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-gray-300 rounded-md"
                           aria-describedby="email-optional"
+                          onChange={(e) => {
+                            const newArgs = [...functionArguments];
+                            newArgs[i] = e.target.value;
+
+                            setArguments(newArgs);
+                          }}
                         />
                       </div>
                     </div>
@@ -171,6 +194,8 @@ const AddressPage: NextPage = ({ functions }) => {
                 </div>
               </form>
             )}
+
+            {result !== undefined && <div>{JSON.stringify(result)}</div>}
           </div>
         </div>
       </main>
@@ -202,7 +227,7 @@ export async function getServerSideProps(context: NextPageContext) {
   const data = await getAbi(address);
   const functions = parseAbi(data.data.result);
 
-  return { props: { functions } };
+  return { props: { functions, abi: data.data.result } };
 }
 
 export default AddressPage;
