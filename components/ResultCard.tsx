@@ -5,7 +5,9 @@ const RenderResult = ({ result }: { result: any }) => {
     return (
       <div>
         {result.map((r, i) => (
-          <div key={i}>{r}</div>
+          <div key={i}>
+            <RenderResult result={r} />
+          </div>
         ))}
       </div>
     );
