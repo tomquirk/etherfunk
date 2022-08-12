@@ -31,10 +31,9 @@ export default function Nav({ functions }: { functions: any[] }) {
   const router = useRouter();
 
   const { address, fn } = router.query;
-  console.log(functions);
-  const filteredFunctions = functions.filter((f) =>
-    f.name.includes(searchTerm)
-  );
+
+  const filteredFunctions =
+    functions?.filter((f) => f.name.includes(searchTerm)) ?? [];
 
   const readFunctions = filteredFunctions.filter(
     (f: any) => f.stateMutability === "view"
