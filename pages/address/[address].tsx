@@ -78,6 +78,7 @@ export default function AddressPage({
     []
   );
   const [result, setResult] = useState<any>();
+  const [errorMessage, setErrorMessage] = useState<string>("asdasdsd");
 
   const { address, fn } = router.query;
 
@@ -86,15 +87,25 @@ export default function AddressPage({
   useEffect(() => {
     setResult(undefined);
     setArguments([]);
+    setErrorMessage("");
   }, [currentFunction]);
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const contract = new Contract(address as string, abi, readProvider);
-    const res = await contract[currentFunction.name](...functionArguments);
-    console.log("RESULT::", res);
+    try {
+      const contract = new Contract(address as string, abi, readProvider);
+      const res = await contract[currentFunction.name](...functionArguments);
+      console.log("RESULT::", res);
 
-    setResult(res);
+      setResult(res);
+    } catch (e) {
+      console.error(e);
+      if (typeof e === "string") {
+        setErrorMessage(e);
+      } else {
+        setErrorMessage((e as Error).message);
+      }
+    }
   };
 
   return (
@@ -119,14 +130,14 @@ export default function AddressPage({
         <ConnectWalletButton />
       </header>
 
-      <main>
+      <div>
         {error ? (
           <span>{error}</span>
         ) : (
           <>
             <Nav functions={functions} />
 
-            <div className="md:pl-96 flex flex-col flex-1 h-full">
+            <main className="md:pl-96 flex flex-col flex-1 h-full">
               <div className="px-10 py-4">
                 <Breadcrumbs
                   address={address as string}
@@ -134,10 +145,13 @@ export default function AddressPage({
                   fn={fn as string}
                 />
                 {fn && (
-                  <div className="my-5 ">
+                  <div className="mt-5 mb-10">
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                       {fn}
                     </h1>
+                    <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
+                      Enter data and call this function.
+                    </p>
                   </div>
                 )}
 
@@ -154,13 +168,6 @@ export default function AddressPage({
 
                     {currentFunction && (
                       <form onSubmit={onSubmit}>
-                        <h3 className="text-lg font-medium text-slate-900">
-                          Inputs
-                        </h3>
-                        <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
-                          This data will be sent with the transaction.
-                        </p>
-
                         <div className="mb-3">
                           {currentFunction.inputs.length === 0 && (
                             <p className="text-slate-500 text-sm">
@@ -202,24 +209,35 @@ export default function AddressPage({
                           ))}
                         </div>
 
-                        <div className="py-3">
+                        <div>
                           {currentFunction.stateMutability === "view" ? (
                             <Button>Execute</Button>
                           ) : (
                             <TransactionButton>Execute</TransactionButton>
                           )}
                         </div>
+                        {errorMessage && (
+                          <div className="text-red-500">{errorMessage}</div>
+                        )}
                       </form>
                     )}
                   </div>
 
-                  {result !== undefined && <ResultCard result={result} />}
+                  {result !== undefined && (
+                    <div>
+                      <h3 className="text-lg font-medium text-slate-900 mb-2">
+                        Result
+                      </h3>
+
+                      <ResultCard result={result} />
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            </main>
           </>
         )}
-      </main>
+      </div>
     </div>
   );
 }
