@@ -26,7 +26,7 @@ const Home: NextPage = () => {
           <div>
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-10 text-center">
-                Interact with contracts on Ethereum. Simple.
+                Interact with contracts on Ethereum.
               </h1>
 
               <div className="sm:mx-auto sm:w-full sm:max-w-lg">

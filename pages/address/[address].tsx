@@ -85,6 +85,7 @@ export default function AddressPage({
 
   useEffect(() => {
     setResult(undefined);
+    setArguments([]);
   }, [currentFunction]);
 
   const onSubmit = async (e: any) => {
@@ -118,7 +119,7 @@ export default function AddressPage({
         <ConnectWalletButton />
       </header>
 
-      <main className="h-screen">
+      <main>
         {error ? (
           <span>{error}</span>
         ) : (
