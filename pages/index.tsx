@@ -1,7 +1,5 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import { FormEventHandler, useState } from "react";
-import axios from "axios";
+import Head from "next/head";;
 import { useRouter } from "next/router";
 import { LoadContractForm } from "../components/LoadContractForm";
 
@@ -12,7 +10,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="h-screen bg-slate-50">
+    <div className="h-screen bg-slate-50 px-4">
       <Head>
         <title>Etherfunk | Your Ethereum Control Panel</title>
         <meta

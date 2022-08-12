@@ -17,18 +17,18 @@ export function LoadContractForm({
 
   return (
     <form onSubmit={_onSubmit}>
-      <label htmlFor="address" className="block text-lg">
-        Load a contract
+      <label htmlFor="address" className="sr-only">
+        Contract address
       </label>
       <input
         onChange={(e) => setAddress(e.target.value)}
         type="text"
-        placeholder="0x00..."
+        placeholder="Contract address"
         id="address"
         name="address"
         autoComplete="off"
         required
-        className="focus:ring-sky-500 py-3 focus:border-sky-500 block w-full pl-7 text-md border border-slate-500 rounded-md bg-transparent text-black mb-3"
+        className="focus:ring-sky-500 py-3 focus:border-sky-500 block w-full px-5 text-md border border-slate-500 rounded-md bg-transparent text-black mb-3"
       ></input>
       <Button
         loading={loading}
