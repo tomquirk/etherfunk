@@ -16,3 +16,14 @@ export const getAbi = (contractAddress: string) => {
     },
   });
 };
+
+export const getSourceCode = (contractAddress: string) => {
+  return axiosInstance.get("", {
+    params: {
+      module: "contract",
+      action: "getsourcecode",
+      address: contractAddress,
+      apikey: ETHERSCAN_API_KEY,
+    },
+  });
+};
