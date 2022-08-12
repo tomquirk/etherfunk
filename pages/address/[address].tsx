@@ -12,7 +12,7 @@ import { Contract } from "ethers";
 import { useEffect, useState } from "react";
 import { ResultCard } from "../../components/ResultCard";
 import Breadcrumbs from "../../components/Breadcrumb";
-import Nav from "./nav";
+import Nav from "./Nav";
 
 /**
  * Get functions from an ABI
