@@ -6,6 +6,7 @@ import { SparklesIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ConnectWalletButton } from "../../components/ConnectWalletButton";
 import { TransactionButton } from "../../components/TransactionButton";
+import { Button } from "../../components/Button";
 
 const AddressPage: NextPage = ({ functions }) => {
   const router = useRouter();
@@ -27,7 +28,9 @@ const AddressPage: NextPage = ({ functions }) => {
       <header className="px-5 py-5 flex justify-between align-center bg-white border-b border-gray-200">
         <div>
           <Link href="/">
-            <a className="font-extrabold tracking-tight">etherfunk</a>
+            <a className="font-extrabold tracking-tight">
+              ether<span className="italic">funk</span>.io
+            </a>
           </Link>
         </div>
         <ConnectWalletButton />
@@ -105,7 +108,7 @@ const AddressPage: NextPage = ({ functions }) => {
         </div>
 
         <div className="md:pl-96 flex flex-col flex-1 h-full">
-          <div className="p-10">
+          <div className="p-10 max-w-4xl mx-auto">
             <div>
               <h1 className="text-xl tracking-tight text-gray-900">
                 {address}
@@ -123,42 +126,45 @@ const AddressPage: NextPage = ({ functions }) => {
             )}
 
             {currentFunction && (
-              <form className="max-w-lg">
-                {currentFunction.inputs.map((fn: any, i: number) => (
-                  <div key={`${i}-${fn.name}`}>
-                    <div className="flex justify-between">
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        {fn.name || "Unnamed"}
-                      </label>
-                      <span
-                        className="text-sm text-gray-500"
-                        id="email-optional"
-                      >
-                        {fn.type}
-                      </span>
+              <form>
+                <div className="mb-3">
+                  {currentFunction.inputs.length === 0 && (
+                    <p className="text-slate-500 text-sm">
+                      This function has no inputs.
+                    </p>
+                  )}
+                  {currentFunction.inputs.map((fn: any, i: number) => (
+                    <div key={`${i}-${fn.name}`} className="mb-5">
+                      <div className="flex justify-between">
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          {fn.name || "Unnamed input"}
+                        </label>
+                        <span
+                          className="text-sm text-gray-500"
+                          id="email-optional"
+                        >
+                          {fn.type}
+                        </span>
+                      </div>
+                      <div className="mt-1">
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          className="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                          aria-describedby="email-optional"
+                        />
+                      </div>
                     </div>
-                    <div className="mt-1">
-                      <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        className="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        aria-describedby="email-optional"
-                      />
-                    </div>
-                  </div>
-                ))}
-                <div className="py-3 bg-gray-50 text-right">
+                  ))}
+                </div>
+
+                <div className="py-3 bg-gray-50">
                   {currentFunction.stateMutability === "view" ? (
-                    <button
-                      type="submit"
-                      className="bg-sky-500 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-                    >
-                      Execute
-                    </button>
+                    <Button>Execute</Button>
                   ) : (
                     <TransactionButton>Execute</TransactionButton>
                   )}
