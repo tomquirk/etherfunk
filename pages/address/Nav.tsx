@@ -1,6 +1,7 @@
 import { CurrencyDollarIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const NavItem = ({
   href,
@@ -25,17 +26,23 @@ const NavItem = ({
 };
 
 export default function Nav({ functions }: { functions: any[] }) {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const router = useRouter();
 
   const { address, fn } = router.query;
+  console.log(functions);
+  const filteredFunctions = functions.filter((f) =>
+    f.name.includes(searchTerm)
+  );
 
-  const readFunctions = functions.filter(
+  const readFunctions = filteredFunctions.filter(
     (f: any) => f.stateMutability === "view"
   );
-  const writeFunctions = functions.filter(
+  const writeFunctions = filteredFunctions.filter(
     (f: any) => f.stateMutability === "nonpayable"
   );
-  const payableFunctions = functions.filter(
+  const payableFunctions = filteredFunctions.filter(
     (f: any) => f.stateMutability === "payable"
   );
 
@@ -52,6 +59,8 @@ export default function Nav({ functions }: { functions: any[] }) {
             id="search"
             className="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-slate-300 rounded-md"
             placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
