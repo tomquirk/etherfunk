@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { getAbi } from "../../lib/etherscan/api";
 import { SparklesIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import { ConnectWalletButton } from "../../components/ConnectWalletButton";
+import { TransactionButton } from "../../components/TransactionButton";
 
 const AddressPage: NextPage = ({ functions }) => {
   const router = useRouter();
@@ -28,12 +30,12 @@ const AddressPage: NextPage = ({ functions }) => {
             <a className="font-extrabold tracking-tight">etherfunk</a>
           </Link>
         </div>
-        <button>Connect</button>
+        <ConnectWalletButton />
       </header>
 
       <main className="h-screen">
         <div className="md:flex md:w-96 md:flex-col md:fixed flex-1 flex flex-col min-h-0 bg-slate-200 px-5 py-10 h-full">
-          <div>
+          {/* <div>
             <label htmlFor="search" className="sr-only">
               Search
             </label>
@@ -46,7 +48,7 @@ const AddressPage: NextPage = ({ functions }) => {
                 placeholder="Search..."
               />
             </div>
-          </div>
+          </div> */}
           <div>
             <div className="mb-5">
               <span className="text-slate-500 uppercase text-sm font-bold">
@@ -150,12 +152,16 @@ const AddressPage: NextPage = ({ functions }) => {
                   </div>
                 ))}
                 <div className="py-3 bg-gray-50 text-right">
-                  <button
-                    type="submit"
-                    className="bg-sky-500 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-                  >
-                    Execute
-                  </button>
+                  {currentFunction.stateMutability === "view" ? (
+                    <button
+                      type="submit"
+                      className="bg-sky-500 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+                    >
+                      Execute
+                    </button>
+                  ) : (
+                    <TransactionButton>Execute</TransactionButton>
+                  )}
                 </div>
               </form>
             )}

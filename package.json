@@ -11,7 +11,11 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@tailwindcss/forms": "^0.5.2",
+    "@web3-onboard/core": "^2.6.0",
+    "@web3-onboard/injected-wallets": "^2.0.15",
+    "@web3-onboard/react": "^2.2.5",
     "axios": "^0.27.2",
+    "ethers": "^5.6.9",
     "next": "12.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
