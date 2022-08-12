@@ -225,9 +225,9 @@ export default function AddressPage({
 
                         <div>
                           {currentFunction.stateMutability === "view" ? (
-                            <Button loading={loading}>Execute</Button>
+                            <Button loading={loading}>Read contract</Button>
                           ) : (
-                            <TransactionButton>Execute</TransactionButton>
+                            <TransactionButton>Submit transaction</TransactionButton>
                           )}
                         </div>
                         {errorMessage && (

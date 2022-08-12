@@ -7,10 +7,10 @@ export function TransactionButton(
   props: Omit<React.HTMLProps<HTMLButtonElement>, "type">
 ) {
   const { connectedWalletAddress } = useContext(NetworkContext);
-
+  console.log("connectedWalletAddress", connectedWalletAddress);
   if (!connectedWalletAddress) {
     return <ConnectWalletButton connectText="Connect Wallet" />;
   }
 
-  return <Button {...props} />;
+  return <Button {...props}>{props.children}</Button>;
 }

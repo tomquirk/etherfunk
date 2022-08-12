@@ -49,7 +49,7 @@ export function ConnectWalletButton({
   const { setSigningProvider } = useContext(NetworkContext);
 
   useEffect(() => {
-    console.log("here", setSigningProvider);
+    console.log("here setSigningProvider", setSigningProvider);
     if (wallet) {
       const ethersProvider = new ethers.providers.Web3Provider(
         wallet.provider,
