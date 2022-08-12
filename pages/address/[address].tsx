@@ -1,4 +1,9 @@
-import type { NextPage, NextPageContext } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+  NextPageContext,
+} from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { getAbi, getSourceCode } from "../../lib/etherscan/api";
@@ -14,7 +19,36 @@ import { useEffect, useState } from "react";
 import { ResultCard } from "../../components/ResultCard";
 import Breadcrumbs from "../../components/Breadcrumb";
 
-const AddressPage: NextPage = ({ functions, abi, contractMetadata }) => {
+// This gets called on every request
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { address } = context?.query ?? {};
+  if (!address || typeof address !== "string") {
+    return {
+      notFound: true,
+    };
+  }
+
+  const abiRes = await getAbi(address);
+  const functions = parseAbi(abiRes.data.result);
+
+  const contractRes = await getSourceCode(address);
+
+  return {
+    props: {
+      functions,
+      abi: abiRes.data.result,
+      contractMetadata: {
+        name: contractRes.data.result?.[0].ContractName ?? "",
+      },
+    },
+  };
+};
+
+export default function AddressPage({
+  functions,
+  abi,
+  contractMetadata,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const { address, fn } = router.query;
   const [functionArguments, setArguments] = useState<Array<string | number>>(
@@ -221,7 +255,7 @@ const AddressPage: NextPage = ({ functions, abi, contractMetadata }) => {
       </main>
     </div>
   );
-};
+}
 
 /**
  * Get functions from an ABI
@@ -234,30 +268,3 @@ const parseAbi = (rawAbi: string) => {
 
   return functions;
 };
-
-// This gets called on every request
-export async function getServerSideProps(context: NextPageContext) {
-  const { address } = context?.query ?? {};
-  if (!address || typeof address !== "string") {
-    return {
-      notFound: true,
-    };
-  }
-
-  const abiRes = await getAbi(address);
-  const functions = parseAbi(abiRes.data.result);
-
-  const contractRes = await getSourceCode(address);
-
-  return {
-    props: {
-      functions,
-      abi: abiRes.data.result,
-      contractMetadata: {
-        name: contractRes.data.result?.[0].ContractName ?? "",
-      },
-    },
-  };
-}
-
-export default AddressPage;
