@@ -2,41 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { FormEventHandler, useState } from "react";
 import axios from "axios";
-
-/**
- * Get functions from an ABI
- * @param rawAbi
- * @returns
- */
-const parseAbi = (rawAbi: string) => {
-  const abi = JSON.parse(rawAbi);
-  const functions = abi.filter((v: any) => v.type === "function");
-  const grouped = functions.reduce((map: any, fn: any) => {
-    if (!map[fn.stateMutability]) {
-      map[fn.stateMutability] = [fn];
-    } else {
-      map[fn.stateMutability].push(fn);
-    }
-    return map;
-  }, {});
-
-  return grouped;
-};
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const [address, setAddress] = useState<string>("");
+  const router = useRouter();
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const data = await axios.get("/api/contract/abi", { params: { address } });
-    const rawAbi = data.data.result;
-
-    try {
-      const functions = parseAbi(rawAbi);
-      console.log(functions);
-    } catch (e) {
-      console.error(e);
-    }
+    router.push(`/address/${address}`);
   };
 
   return (
