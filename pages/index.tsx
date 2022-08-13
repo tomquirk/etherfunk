@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { ExploreSection } from "../components/ExploreSection";
 import { LoadContractForm } from "../components/LoadContractForm";
 
 const Home: NextPage = () => {
@@ -27,7 +28,7 @@ const Home: NextPage = () => {
 
       <div className="h-full">
         <main className="flex align-center justify-center flex-col h-full">
-          <div>
+          <section>
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-10 text-center">
                 Interact with smart contracts on Ethereum.
@@ -37,12 +38,17 @@ const Home: NextPage = () => {
                 <LoadContractForm onSubmit={onSubmit} />
               </div>
             </div>
-          </div>
+          </section>
         </main>
+
         <footer className="absolute bottom-0 right-0 p-4 text-center w-full">
+          <div className="w-full sm:mx-auto sm:w-full sm:max-w-lg mb-6">
+            <ExploreSection />
+          </div>
+
           <a
             href="https://twitter.com/aeolianeth"
-            className="text-sm hover:text-sky-600 text-slate-800"
+            className="text-sm hover:text-blue-800 text-slate-800"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -28,11 +28,11 @@ export function LoadContractForm({
         name="address"
         autoComplete="off"
         required
-        className="focus:ring-sky-500 py-3 focus:border-sky-500 block w-full px-5 text-md border border-slate-500 rounded-md bg-transparent text-black mb-3"
+        className="focus:ring-blue-500 py-3 focus:border-blue-500 block w-full px-5 text-md border border-slate-500 rounded-md bg-transparent text-black mb-3"
       ></input>
       <Button
         loading={loading}
-        className="w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-sky-500 hover:bg-sky-600"
+        className="w-full  px-5 py-3 text-base font-medium rounded-md"
       >
         Load it up
       </Button>

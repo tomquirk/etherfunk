@@ -135,7 +135,7 @@ export default function AddressPage({
               ether<span className="italic">funk</span>.io
             </a>
           </Link>
-          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-900">
+          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
             Beta
           </span>
         </div>
@@ -212,7 +212,7 @@ export default function AddressPage({
                                       type="text"
                                       name={`${i}-${fn.name}`}
                                       id={`${i}-${fn.name}`}
-                                      className="shadow-sm focus:ring-sky-500 focus:border-sky-500 block w-full sm:text-sm border-slate-300 rounded-md"
+                                      className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-slate-300 rounded-md"
                                       aria-describedby="email-optional"
                                       onChange={(e) => {
                                         const newArgs = [...functionArguments];

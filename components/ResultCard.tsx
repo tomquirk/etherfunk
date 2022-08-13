@@ -30,7 +30,7 @@ const RenderResult = ({ result }: { result: any }) => {
 
 export function ResultCard({ result }: { result: any }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
+    <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 overflow-scroll">
       <RenderResult result={result} />
     </div>
   );
