@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Head from "next/head";;
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { LoadContractForm } from "../components/LoadContractForm";
 
@@ -18,7 +18,13 @@ const Home: NextPage = () => {
           content="Your Ethereum Control Panel. Interact with smart contracts on Ethereum."
         />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          src="https://tvc15-essential.etherfunk.io/script.js"
+          data-site="JIKXTFHK"
+          defer
+        ></script>
       </Head>
+
       <div className="h-full">
         <main className="flex align-center justify-center flex-col h-full">
           <div>
