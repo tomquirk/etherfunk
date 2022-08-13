@@ -19,17 +19,6 @@ init({
       rpcUrl,
     },
   ],
-  appMetadata: {
-    // app name
-    name: "Juicebox",
-    // SVG icon string, with height or width (whichever is larger) set to 100% or a valid image URL
-    icon: "https://juicebox.money/assets/juice_logo-ol.png",
-    // Optional wide format logo (ie icon and text) to be displayed in the sidebar of connect modal. Defaults to icon if not provided
-    // description of app
-    description: "Juicebox is sick",
-    // url that points to more information about app
-    explore: "https://info.juicebox.money",
-  },
   accountCenter: {
     desktop: {
       enabled: false,
