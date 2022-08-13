@@ -126,6 +126,11 @@ export default function AddressPage({
           content="Your Ethereum Control Panel. Interact with smart contracts on Ethereum."
         />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          src="https://tvc15-essential.etherfunk.io/script.js"
+          data-site="JIKXTFHK"
+          defer
+        ></script>
       </Head>
 
       <header className="p-5 h-20 fixed top-0 w-full flex justify-between items-center bg-white border-b border-slate-200">
