@@ -69,8 +69,8 @@ export default function Nav({ functions }: { functions: any[] }) {
 
       <div>
         <div className="mb-5">
-          <div className="text-slate-500  px-2 uppercase text-xs font-bold mb-2">
-            READ
+          <div className="text-slate-500 px-2 uppercase tracking-wide text-xs font-bold mb-2">
+            Read
           </div>
           <div className="flex flex-col">
             {readFunctions.map((readFunction: any, idx: number) => {
@@ -93,8 +93,8 @@ export default function Nav({ functions }: { functions: any[] }) {
         </div>
 
         <div className="mb-2">
-          <div className="text-slate-500 uppercase text-xs px-2 font-bold mb-2">
-            WRITE
+          <div className="text-slate-500 uppercase tracking-wide text-xs px-2 font-bold mb-2">
+            Write
           </div>
 
           <div className="flex flex-col">

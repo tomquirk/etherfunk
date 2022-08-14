@@ -11,5 +11,9 @@ export function TransactionButton(
     return <ConnectWalletButton connectText="Connect Wallet" />;
   }
 
-  return <Button {...props} disabled>{props.children}</Button>;
+  return (
+    <Button {...props} type="submit" disabled>
+      {props.children}
+    </Button>
+  );
 }

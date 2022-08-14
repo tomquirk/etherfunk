@@ -22,7 +22,7 @@ const CONTRACTS = [
 export function ExploreSection() {
   return (
     <div className="flex justify-between">
-      <span className="text-sm font-medium uppercase text-slate-500">
+      <span className="text-sm font-medium uppercase tracking-wide text-slate-500">
         Explore
       </span>
       {CONTRACTS.map((c) => (

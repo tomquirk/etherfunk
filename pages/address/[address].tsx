@@ -284,14 +284,35 @@ export default function AddressPage({
                           </div>
                         )}
 
-                        <div>
+                        <div className="flex">
                           {currentFunction.stateMutability === "view" ? (
-                            <Button loading={loading}>Read contract</Button>
+                            <Button type="submit" loading={loading}>
+                              Read contract
+                            </Button>
                           ) : (
                             <TransactionButton>
                               Submit transaction
                             </TransactionButton>
                           )}
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+
+                              setArguments([]);
+                              router.replace(
+                                {
+                                  pathname: router.pathname,
+                                  query: { ...router.query, args: undefined },
+                                },
+                                undefined,
+                                { shallow: true }
+                              );
+                            }}
+                            type="button"
+                            className="ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          >
+                            Reset
+                          </button>
                         </div>
                         {errorMessage && (
                           <div className="text-red-500">{errorMessage}</div>
