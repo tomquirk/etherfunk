@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ResultCard } from "../../components/ResultCard";
 import Breadcrumbs from "../../components/Breadcrumb";
 import Nav from "./Nav";
+import { EtherscanLogo } from "../../components/icons/EtherscanLogo";
 
 /**
  * Get functions from an ABI
@@ -204,18 +205,31 @@ export default function AddressPage({
                   fn={fn as string}
                 />
                 {fn && (
-                  <div className="mt-5 mb-10">
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-                      {fn}
-                    </h1>
+                  <div className="mt-5 mb-10 flex justify-between">
+                    <div>
+                      <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                        {fn}
+                      </h1>
 
-                    <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
-                      {currentFunction.inputs.length === 0 ? (
-                        <>This function has no inputs.</>
-                      ) : (
-                        <>Enter data and call this function.</>
-                      )}
-                    </p>
+                      <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
+                        {currentFunction.inputs.length === 0 ? (
+                          <>This function has no inputs.</>
+                        ) : (
+                          <>Complete the form and call this function.</>
+                        )}
+                      </p>
+                    </div>
+                    <div>
+                      <a
+                        className="text-sm font-normal text-slate-500 mb-5 flex items-center hover:text-blue-700"
+                        href={`https://etherscan.io/address/${address}#readContract`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <EtherscanLogo />
+                        <span className="ml-1">View on Etherscan</span>
+                      </a>
+                    </div>
                   </div>
                 )}
 
