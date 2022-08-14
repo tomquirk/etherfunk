@@ -80,6 +80,7 @@ export default function AddressPage({
   const [result, setResult] = useState<any>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
 
   const { address, fn } = router.query;
 
@@ -88,10 +89,29 @@ export default function AddressPage({
     [fn, functions]
   );
 
+  // only run on initial render
+  useEffect(() => {
+    const { args } = router.query;
+    try {
+      if (!args) throw new Error();
+      const parsed = JSON.parse(args as string);
+      setArguments(parsed);
+    } catch (e) {
+      setArguments([]);
+    }
+    setInitialLoadDone(true);
+  }, []);
+
   useEffect(() => {
     setResult(undefined);
-    setArguments([]);
     setErrorMessage("");
+    // if the initial page load has already happened,
+    // we can reset state.
+    // if the user comes in cold, this won't be called.
+    // if they click a link from the sidebar, it will be called.
+    if (initialLoadDone) {
+      setArguments([]);
+    }
   }, [currentFunction]);
 
   const onSubmit = async (e: any) => {
@@ -115,6 +135,25 @@ export default function AddressPage({
     } finally {
       setLoading(false);
     }
+  };
+
+  const onFieldChange = (fieldIdx: number, value: string) => {
+    // set state
+    const newArgs = [...functionArguments];
+    newArgs[fieldIdx] = value;
+    setArguments(newArgs);
+
+    const newQuery = { ...router.query, args: JSON.stringify(newArgs) };
+
+    // sync params
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: newQuery,
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   return (
@@ -220,12 +259,9 @@ export default function AddressPage({
                                       className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-slate-300 rounded-md"
                                       aria-describedby="email-optional"
                                       onChange={(e) => {
-                                        const newArgs = [...functionArguments];
-                                        newArgs[i] = e.target.value;
-
-                                        setArguments(newArgs);
+                                        onFieldChange(i, e.target.value);
                                       }}
-                                      value={functionArguments[i]}
+                                      value={functionArguments[i] ?? ""}
                                     />
                                   </div>
                                 </div>
