@@ -6,7 +6,6 @@ export function EtherscanLogo() {
       width={dim}
       height={dim}
       viewBox="0 0 293.775 293.671"
-      preserveAspectRatio="true"
     >
       <g id="etherscan-logo-circle" transform="translate(-219.378 -213.33)">
         <path
