@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { networkName } from "../constants/network";
 
 const CONTRACTS = [
   {
@@ -20,6 +21,8 @@ const CONTRACTS = [
 ];
 
 export function ExploreSection() {
+  if (networkName !== "mainnet") return null;
+
   return (
     <div className="flex justify-between">
       <span className="text-sm font-medium uppercase tracking-wide text-slate-500">
