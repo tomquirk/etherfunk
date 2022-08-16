@@ -161,7 +161,7 @@ export default function AddressPage({
   return (
     <div className="bg-slate-100" style={{ minHeight: "calc(100vh - 80px)" }}>
       <Head>
-        <title>Etherfunk | Your Ethereum Control Panel</title>
+        <title>Etherfunk</title>
         <DefaultHead />
       </Head>
 
