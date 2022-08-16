@@ -40,7 +40,7 @@ export function DefaultHead() {
       />
       <meta
         name="og:description"
-        content="Interact with smart contracts on Ethereum. Your Ethereum control panel."
+        content="Interact with any smart contract on Ethereum."
       />
       <script
         src="https://tvc15-essential.etherfunk.io/script.js"
