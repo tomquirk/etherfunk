@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   return (
     <div className="h-screen bg-slate-50 px-4">
       <Head>
-        <title>Etherfunk | Your Ethereum Control Panel</title>
+        <title>Etherfunk</title>
         <DefaultHead />
       </Head>
 
