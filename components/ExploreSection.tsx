@@ -10,12 +10,12 @@ const CONTRACTS = [
     name: "Uniswap V3",
   },
   {
-    address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-    name: "Tether",
-  },
-  {
     address: "0x283af0b28c62c092c9727f1ee09c02ca627eb7f5",
     name: "ENS",
+  },
+  {
+    address: "0xcc8f7a89d89c2ab3559f484e0c656423e979ac9c",
+    name: "Juicebox",
   },
 ];
 

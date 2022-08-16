@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { DefaultHead } from "../components/common/DefaultHead";
 import { ExploreSection } from "../components/ExploreSection";
+import { FooterLinks } from "../components/FooterLinks";
 import { LoadContractForm } from "../components/LoadContractForm";
 
 const Home: NextPage = () => {
@@ -37,14 +38,7 @@ const Home: NextPage = () => {
             <ExploreSection />
           </div>
 
-          <a
-            href="https://twitter.com/aeolianeth"
-            className="text-sm hover:text-blue-800 text-slate-800"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            @aeolianeth
-          </a>
+          <FooterLinks />
         </footer>
       </div>
     </div>
