@@ -9,12 +9,15 @@ import { TransactionButton } from "../../components/TransactionButton";
 import { Button } from "../../components/Button";
 import { readProvider } from "../../constants/network";
 import { Contract } from "ethers";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { ResultCard } from "../../components/ResultCard";
 import Breadcrumbs from "../../components/Breadcrumb";
 import Nav from "./Nav";
 import { EtherscanLogo } from "../../components/icons/EtherscanLogo";
 import { DefaultHead } from "../../components/common/DefaultHead";
+import { NetworkContext } from "../../contexts/NetworkContext";
+import { parseEther } from "ethers/lib/utils";
+import { FormError } from "../../components/FormError";
 
 /**
  * Get functions from an ABI
@@ -75,10 +78,12 @@ export default function AddressPage({
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+  const { signingProvider } = useContext(NetworkContext);
 
   const [functionArguments, setArguments] = useState<Array<string | number>>(
     []
   );
+  const [payableValue, setPayableValue] = useState<string>("");
   const [result, setResult] = useState<any>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -117,13 +122,27 @@ export default function AddressPage({
   }, [currentFunction]);
 
   const onSubmit = async (e: any) => {
+    console.log(signingProvider?.getSigner());
     e.preventDefault();
     try {
       setLoading(true);
       setErrorMessage(undefined);
 
-      const contract = new Contract(address as string, abi, readProvider);
-      const res = await contract[currentFunction.name](...functionArguments);
+      const contract = new Contract(
+        address as string,
+        abi,
+        signingProvider?.getSigner() ?? readProvider
+      );
+
+      console.log(
+        `Calling "${currentFunction.name}" with args: ${functionArguments}`
+      );
+      const res = payableValue
+        ? await contract[currentFunction.name](...functionArguments, {
+            value: parseEther(payableValue),
+          })
+        : await contract[currentFunction.name](...functionArguments);
+
       console.log("RESULT::", res);
 
       setResult(res);
@@ -238,6 +257,11 @@ export default function AddressPage({
 
                     {currentFunction && (
                       <form onSubmit={onSubmit}>
+                        <div className="mb-8">
+                          {errorMessage && (
+                            <FormError errorMessage={errorMessage} />
+                          )}
+                        </div>
                         {currentFunction.inputs.length > 0 && (
                           <div className="mb-3">
                             {currentFunction.inputs.map(
@@ -273,6 +297,37 @@ export default function AddressPage({
                                 </div>
                               )
                             )}
+                            {currentFunction.stateMutability == "payable" && (
+                              <div className="mb-5 mt-10">
+                                <div className="flex justify-between">
+                                  <label
+                                    htmlFor="payable-value"
+                                    className="block text-sm font-medium text-slate-700"
+                                  >
+                                    Value
+                                  </label>
+                                  <span
+                                    className="text-sm text-slate-500"
+                                    id="payable-value"
+                                  >
+                                    ETH
+                                  </span>
+                                </div>
+                                <div className="mt-1">
+                                  <input
+                                    type="text"
+                                    name="payable-value"
+                                    id="payable-value"
+                                    className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-slate-300 rounded-md"
+                                    aria-describedby="payable-value"
+                                    onChange={(e) => {
+                                      setPayableValue(e.target.value);
+                                    }}
+                                    value={payableValue ?? ""}
+                                  />
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
 
@@ -306,9 +361,6 @@ export default function AddressPage({
                             Reset
                           </button>
                         </div>
-                        {errorMessage && (
-                          <div className="text-red-500">{errorMessage}</div>
-                        )}
                       </form>
                     )}
                   </div>

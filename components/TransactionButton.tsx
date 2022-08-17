@@ -12,7 +12,7 @@ export function TransactionButton(
   }
 
   return (
-    <Button {...props} type="submit" disabled>
+    <Button {...props} type="submit">
       {props.children}
     </Button>
   );
