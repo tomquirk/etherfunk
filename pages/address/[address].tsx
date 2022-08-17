@@ -2,7 +2,7 @@ import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { getAbi, getSourceCode } from "../../lib/etherscan/api";
-import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
+import { ArrowCircleLeftIcon, ExclamationIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { ConnectWalletButton } from "../../components/ConnectWalletButton";
 import { TransactionButton } from "../../components/TransactionButton";
@@ -216,7 +216,7 @@ export default function AddressPage({
                   fn={fn as string}
                 />
                 {fn && (
-                  <div className="mt-5 mb-10 flex justify-between">
+                  <div className="mt-5 flex justify-between">
                     <div>
                       <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                         {fn}
@@ -257,11 +257,11 @@ export default function AddressPage({
 
                     {currentFunction && (
                       <form onSubmit={onSubmit}>
-                        <div className="mb-8">
-                          {errorMessage && (
+                        {errorMessage && (
+                          <div className="mb-8">
                             <FormError errorMessage={errorMessage} />
-                          )}
-                        </div>
+                          </div>
+                        )}
                         {currentFunction.inputs.length > 0 && (
                           <div className="mb-3">
                             {currentFunction.inputs.map(
@@ -328,6 +328,32 @@ export default function AddressPage({
                                 </div>
                               </div>
                             )}
+                          </div>
+                        )}
+                        {currentFunction.stateMutability === "payable" && (
+                          <div className="rounded-md bg-yellow-50 p-4 mb-5">
+                            <div className="flex">
+                              <div className="flex-shrink-0">
+                                <ExclamationIcon
+                                  className="h-5 w-5 text-yellow-400"
+                                  aria-hidden="true"
+                                />
+                              </div>
+                              <div className="ml-3">
+                                <h3 className="text-sm font-medium text-yellow-800">
+                                  You're about to pay a smart contract.
+                                </h3>
+                                <div className="mt-2 text-sm text-yellow-700">
+                                  <p>
+                                    This transaction will transfer funds from
+                                    your wallet to the contract. Etherfunk may
+                                    have bugs. Before submitting the
+                                    transaction, make sure you verify the
+                                    transaction data.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         )}
 
