@@ -18,6 +18,7 @@ import { DefaultHead } from "../../components/common/DefaultHead";
 import { NetworkContext } from "../../contexts/NetworkContext";
 import { parseEther } from "ethers/lib/utils";
 import { FormError } from "../../components/FormError";
+import { getInputValues } from "./FunctionForm/helpers";
 
 /**
  * Get functions from an ABI
@@ -402,6 +403,21 @@ export default function AddressPage({
                             className="ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
                             Reset
+                          </button>
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              const args = await getInputValues(
+                                address as string,
+                                currentFunction.name,
+                                abi
+                              );
+
+                              setArguments(args);
+                            }}
+                            className="ml-3 bg-transparent py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          >
+                            Prefill
                           </button>
                         </div>
                       </form>

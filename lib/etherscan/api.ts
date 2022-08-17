@@ -33,3 +33,19 @@ export const getSourceCode = (contractAddress: string) => {
     },
   });
 };
+
+export const listTransactions = (contractAddress: string) => {
+  return axiosInstance.get("", {
+    params: {
+      module: "account",
+      action: "txlist",
+      address: contractAddress,
+      startblock: "0",
+      endblock: "99999999",
+      page: "1",
+      offset: "0",
+      sort: "desc",
+      apikey: ETHERSCAN_API_KEY,
+    },
+  });
+};
