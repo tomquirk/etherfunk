@@ -33,7 +33,9 @@ export default function Nav({ functions }: { functions: any[] }) {
   const { address, fn } = router.query;
 
   const filteredFunctions =
-    functions?.filter((f) => f.name.includes(searchTerm)) ?? [];
+    functions?.filter((f) =>
+      f.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) ?? [];
 
   const readFunctions = filteredFunctions.filter(
     (f: any) => f.stateMutability === "view"
