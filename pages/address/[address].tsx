@@ -29,8 +29,25 @@ const parseAbi = (rawAbi: string) => {
     const abi = JSON.parse(rawAbi);
     const functions = abi.filter((v: any) => v.type === "function");
 
-    return functions;
+    const functionsDeduped: any[] = [];
+
+    functions.forEach((fn: any) => {
+      const functionsWithSameName = functionsDeduped.filter(
+        (_fn: any) => _fn.name === fn.name || _fn.name.startsWith(fn.name + "_")
+      );
+      if (functionsWithSameName.length > 0) {
+        return functionsDeduped.push({
+          ...fn,
+          name: `${fn.name}_${functionsWithSameName.length}`,
+        });
+      }
+
+      functionsDeduped.push(fn);
+    });
+
+    return functionsDeduped;
   } catch (e) {
+    console.error(e);
     return [];
   }
 };
