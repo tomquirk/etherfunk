@@ -107,6 +107,7 @@ export default function AddressPage({
   const [loading, setLoading] = useState<boolean>(false);
   const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
   const [autofillLoading, setAutofillLoading] = useState<boolean>(false);
+  const [autofillDisabled, setAutofillDisabled] = useState<boolean>(false);
 
   const { address, fn } = router.query;
 
@@ -206,7 +207,11 @@ export default function AddressPage({
 
     setAutofillLoading(false);
 
-    setArguments(args);
+    if (args.length === 0) {
+      setAutofillDisabled(true);
+    } else {
+      setArguments(args);
+    }
   };
 
   return (
@@ -260,10 +265,20 @@ export default function AddressPage({
                         ) : (
                           <span>
                             Complete the form and call this function.
+                            <span
+                              data-tip="This function didn't appear in the last 1000 transactions."
+                              className="text-slate-400 italic"
+                              hidden={!autofillDisabled}
+                            >
+                              {" "}
+                              Autofill unavailable
+                            </span>
                             <button
                               type="button"
                               className="ml-2 border-b border-dashed border-decoration-dashed border-slate-300  hover:border-slate-400 hover:text-slate-700 leading-tight"
                               onClick={onClickAutofill}
+                              data-tip="Populate most common values from the last 1000 transactions."
+                              hidden={autofillDisabled}
                             >
                               🔥{" "}
                               <span className="italic">
