@@ -6,7 +6,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { address } = req.query;
-  const txs = await listTransactions(address as string);
+  try {
+    const txs = await listTransactions(address as string);
 
-  return res.status(200).json({ transactions: txs.data.result });
+    return res.status(200).json({ transactions: txs.data.result });
+  } catch (e) {
+    console.error(e);
+    return res.status(500);
+  }
 }

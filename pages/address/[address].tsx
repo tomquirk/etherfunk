@@ -201,18 +201,23 @@ export default function AddressPage({
 
   const onClickAutofill = async () => {
     setAutofillLoading(true);
-    const args = await getInputValues(
-      address as string,
-      currentFunction.name,
-      abi
-    );
 
-    setAutofillLoading(false);
+    try {
+      const args = await getInputValues(
+        address as string,
+        currentFunction.name,
+        abi
+      );
 
-    if (args.length === 0) {
+      if (args.length === 0) {
+        setAutofillDisabled(true);
+      } else {
+        setArguments(args);
+      }
+    } catch (e) {
       setAutofillDisabled(true);
-    } else {
-      setArguments(args);
+    } finally {
+      setAutofillLoading(false);
     }
   };
 
