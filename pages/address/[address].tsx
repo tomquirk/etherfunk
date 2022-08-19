@@ -18,6 +18,7 @@ import { DefaultHead } from "../../components/common/DefaultHead";
 import { NetworkContext } from "../../contexts/NetworkContext";
 import { parseEther } from "ethers/lib/utils";
 import { FormError } from "../../components/FormError";
+import { getInputValues } from "../../components/FunctionForm/helpers";
 
 /**
  * Get functions from an ABI
@@ -105,6 +106,8 @@ export default function AddressPage({
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
+  const [autofillLoading, setAutofillLoading] = useState<boolean>(false);
+  const [autofillDisabled, setAutofillDisabled] = useState<boolean>(false);
 
   const { address, fn } = router.query;
 
@@ -194,6 +197,23 @@ export default function AddressPage({
     );
   };
 
+  const onClickAutofill = async () => {
+    setAutofillLoading(true);
+    const args = await getInputValues(
+      address as string,
+      currentFunction.name,
+      abi
+    );
+
+    setAutofillLoading(false);
+
+    if (args.length === 0) {
+      setAutofillDisabled(true);
+    } else {
+      setArguments(args);
+    }
+  };
+
   return (
     <div className="bg-slate-100" style={{ minHeight: "calc(100vh - 80px)" }}>
       <Head>
@@ -243,7 +263,31 @@ export default function AddressPage({
                         {currentFunction.inputs.length === 0 ? (
                           <>This function has no inputs.</>
                         ) : (
-                          <>Complete the form and call this function.</>
+                          <span>
+                            Complete the form and call this function.
+                            <span
+                              data-tip="This function didn't appear in the last 1000 transactions."
+                              className="text-slate-400 italic"
+                              hidden={!autofillDisabled}
+                            >
+                              {" "}
+                              Autofill unavailable
+                            </span>
+                            <button
+                              type="button"
+                              className="ml-2 border-b border-dashed border-decoration-dashed border-slate-300  hover:border-slate-400 hover:text-slate-700 leading-tight"
+                              onClick={onClickAutofill}
+                              data-tip="Populate most common values from the last 1000 transactions."
+                              hidden={autofillDisabled}
+                            >
+                              🔥{" "}
+                              <span className="italic">
+                                {autofillLoading
+                                  ? "Autofilling..."
+                                  : "Autofill"}
+                              </span>
+                            </button>
+                          </span>
                         )}
                       </p>
                     </div>
