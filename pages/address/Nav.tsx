@@ -2,6 +2,7 @@ import { CurrencyDollarIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Input } from "../../components/common/form/Input";
 
 const NavItem = ({
   href,
@@ -57,11 +58,10 @@ export default function Nav({ functions }: { functions: any[] }) {
           Search
         </label>
         <div className="mb-3">
-          <input
+          <Input
             type="search"
             name="search"
             id="search"
-            className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-slate-300 rounded-md"
             placeholder="Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

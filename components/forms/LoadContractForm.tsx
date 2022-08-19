@@ -1,5 +1,6 @@
 import { FormEventHandler, useState } from "react";
 import { Button } from "../common/buttons/Button";
+import { Input } from "../common/form/Input";
 
 export function LoadContractForm({
   onSubmit,
@@ -20,20 +21,17 @@ export function LoadContractForm({
       <label htmlFor="address" className="sr-only">
         Contract address
       </label>
-      <input
+      <Input
         onChange={(e) => setAddress(e.target.value)}
         type="text"
         placeholder="Contract address"
         id="address"
         name="address"
-        autoComplete="off"
         required
-        className="focus:ring-blue-500 py-3 focus:border-blue-500 block w-full px-5 text-md border border-slate-500 rounded-md bg-transparent text-black mb-3"
-      ></input>
-      <Button
-        loading={loading}
-        className="w-full px-5 py-3 text-base font-medium rounded-md"
-      >
+        className="mb-3 border-slate-500"
+        size="large"
+      />
+      <Button loading={loading} size="large" className="w-full">
         Load it up
       </Button>
     </form>

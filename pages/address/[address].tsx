@@ -19,6 +19,7 @@ import { NetworkContext } from "../../contexts/NetworkContext";
 import { parseEther } from "ethers/lib/utils";
 import { getInputValues } from "../../components/forms/FunctionForm/helpers";
 import { Alert } from "../../components/common/Alert";
+import { Input } from "../../components/common/form/Input";
 
 /**
  * Get functions from an ABI
@@ -348,11 +349,10 @@ export default function AddressPage({
                                     </span>
                                   </div>
                                   <div className="mt-1">
-                                    <input
+                                    <Input
                                       type="text"
                                       name={`${i}-${fn.name}`}
                                       id={`${i}-${fn.name}`}
-                                      className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-slate-300 rounded-md"
                                       aria-describedby="email-optional"
                                       onChange={(e) => {
                                         onFieldChange(i, e.target.value);
@@ -380,11 +380,10 @@ export default function AddressPage({
                                   </span>
                                 </div>
                                 <div className="mt-1">
-                                  <input
+                                  <Input
                                     type="text"
                                     name="payable-value"
                                     id="payable-value"
-                                    className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-slate-300 rounded-md"
                                     aria-describedby="payable-value"
                                     onChange={(e) => {
                                       setPayableValue(e.target.value);
