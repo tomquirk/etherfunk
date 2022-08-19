@@ -32,7 +32,7 @@ export function LoadContractForm({
       ></input>
       <Button
         loading={loading}
-        className="w-full  px-5 py-3 text-base font-medium rounded-md"
+        className="w-full px-5 py-3 text-base font-medium rounded-md"
       >
         Load it up
       </Button>
