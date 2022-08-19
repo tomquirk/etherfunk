@@ -18,7 +18,7 @@ import { DefaultHead } from "../../components/common/DefaultHead";
 import { NetworkContext } from "../../contexts/NetworkContext";
 import { parseEther } from "ethers/lib/utils";
 import { FormError } from "../../components/FormError";
-import { getInputValues } from "./FunctionForm/helpers";
+import { getInputValues } from "../../components/FunctionForm/helpers";
 
 /**
  * Get functions from an ABI
