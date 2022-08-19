@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { init, useConnectWallet } from "@web3-onboard/react";
 import injectedModule from "@web3-onboard/injected-wallets";
 import { ethers } from "ethers";
-import { NetworkContext } from "../contexts/NetworkContext";
-import { rpcUrl } from "../constants/network";
+import { NetworkContext } from "../../../contexts/NetworkContext";
+import { rpcUrl } from "../../../constants/network";
 import { Button } from "./Button";
 
 const injected = injectedModule();

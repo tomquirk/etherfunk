@@ -1,5 +1,5 @@
 import { FormEventHandler, useState } from "react";
-import { Button } from "./Button";
+import { Button } from "../common/buttons/Button";
 
 export function LoadContractForm({
   onSubmit,

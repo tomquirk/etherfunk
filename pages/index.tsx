@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { DefaultHead } from "../components/common/DefaultHead";
 import { ExploreSection } from "../components/ExploreSection";
 import { FooterLinks } from "../components/FooterLinks";
-import { LoadContractForm } from "../components/LoadContractForm";
+import { LoadContractForm } from "../components/forms/LoadContractForm";
 
 const Home: NextPage = () => {
   const router = useRouter();

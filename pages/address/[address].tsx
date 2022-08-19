@@ -4,21 +4,21 @@ import { useRouter } from "next/router";
 import { getAbi, getSourceCode } from "../../lib/etherscan/api";
 import { ArrowCircleLeftIcon, ExclamationIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import { ConnectWalletButton } from "../../components/ConnectWalletButton";
-import { TransactionButton } from "../../components/TransactionButton";
-import { Button } from "../../components/Button";
+import { ConnectWalletButton } from "../../components/common/buttons/ConnectWalletButton";
+import { TransactionButton } from "../../components/common/buttons/TransactionButton";
+import { Button } from "../../components/common/buttons/Button";
 import { readProvider } from "../../constants/network";
 import { Contract } from "ethers";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ResultCard } from "../../components/ResultCard";
-import Breadcrumbs from "../../components/Breadcrumb";
+import Breadcrumbs from "../../components/common/Breadcrumb";
 import Nav from "./Nav";
-import { EtherscanLogo } from "../../components/icons/EtherscanLogo";
+import { EtherscanLogo } from "../../components/common/icons/EtherscanLogo";
 import { DefaultHead } from "../../components/common/DefaultHead";
 import { NetworkContext } from "../../contexts/NetworkContext";
 import { parseEther } from "ethers/lib/utils";
-import { FormError } from "../../components/FormError";
-import { getInputValues } from "../../components/FunctionForm/helpers";
+import { getInputValues } from "../../components/forms/FunctionForm/helpers";
+import { Alert } from "../../components/common/Alert";
 
 /**
  * Get functions from an ABI
@@ -132,6 +132,7 @@ export default function AddressPage({
   useEffect(() => {
     setResult(undefined);
     setErrorMessage("");
+    setAutofillDisabled(false);
     // if the initial page load has already happened,
     // we can reset state.
     // if the user comes in cold, this won't be called.
@@ -320,7 +321,11 @@ export default function AddressPage({
                       <form onSubmit={onSubmit}>
                         {errorMessage && (
                           <div className="mb-8">
-                            <FormError errorMessage={errorMessage} />
+                            <Alert
+                              variant="danger"
+                              title="Transaction failed."
+                              body={errorMessage}
+                            />
                           </div>
                         )}
                         {currentFunction.inputs.length > 0 && (
@@ -392,30 +397,16 @@ export default function AddressPage({
                           </div>
                         )}
                         {currentFunction.stateMutability === "payable" && (
-                          <div className="rounded-md bg-yellow-50 p-4 mb-5">
-                            <div className="flex">
-                              <div className="flex-shrink-0">
-                                <ExclamationIcon
-                                  className="h-5 w-5 text-yellow-400"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                              <div className="ml-3">
-                                <h3 className="text-sm font-medium text-yellow-800">
-                                  You're about to pay a smart contract.
-                                </h3>
-                                <div className="mt-2 text-sm text-yellow-700">
-                                  <p>
-                                    This transaction will transfer funds from
-                                    your wallet to the contract. Etherfunk may
-                                    have bugs. Before submitting the
-                                    transaction, make sure you verify the
-                                    transaction data.
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          <Alert
+                            variant="warning"
+                            title="You're about to pay a smart contract."
+                            body="This transaction will transfer funds from
+                          your wallet to the contract. Etherfunk may
+                          have bugs. Before submitting the
+                          transaction, make sure you verify the
+                          transaction data."
+                            className="mb-5"
+                          />
                         )}
 
                         <div className="flex">

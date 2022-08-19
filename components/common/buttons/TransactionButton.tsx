@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NetworkContext } from "../contexts/NetworkContext";
+import { NetworkContext } from "../../../contexts/NetworkContext";
 import { Button } from "./Button";
 import { ConnectWalletButton } from "./ConnectWalletButton";
 

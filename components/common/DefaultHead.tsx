@@ -1,5 +1,3 @@
-import Head from "next/head";
-
 export function DefaultHead() {
   return (
     <>

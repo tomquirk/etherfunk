@@ -1,4 +1,4 @@
-import { Spinner } from "./Spinner";
+import { Spinner } from "../Spinner";
 
 const baseClassName =
   "border rounded-md shadow-sm py-2 px-4 inline-flex justify-center items-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500";
