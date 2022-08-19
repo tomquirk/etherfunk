@@ -43,7 +43,7 @@ export const listTransactions = (contractAddress: string) => {
       startblock: "0",
       endblock: "99999999",
       page: "1",
-      offset: "0",
+      offset: "1000",
       sort: "desc",
       apikey: ETHERSCAN_API_KEY,
     },

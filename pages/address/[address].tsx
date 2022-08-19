@@ -106,6 +106,7 @@ export default function AddressPage({
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
+  const [autofillLoading, setAutofillLoading] = useState<boolean>(false);
 
   const { address, fn } = router.query;
 
@@ -195,6 +196,19 @@ export default function AddressPage({
     );
   };
 
+  const onClickAutofill = async () => {
+    setAutofillLoading(true);
+    const args = await getInputValues(
+      address as string,
+      currentFunction.name,
+      abi
+    );
+
+    setAutofillLoading(false);
+
+    setArguments(args);
+  };
+
   return (
     <div className="bg-slate-100" style={{ minHeight: "calc(100vh - 80px)" }}>
       <Head>
@@ -244,7 +258,21 @@ export default function AddressPage({
                         {currentFunction.inputs.length === 0 ? (
                           <>This function has no inputs.</>
                         ) : (
-                          <>Complete the form and call this function.</>
+                          <span>
+                            Complete the form and call this function.
+                            <button
+                              type="button"
+                              className="ml-2 border-b border-dashed border-decoration-dashed border-slate-300  hover:border-slate-400 hover:text-slate-700 leading-tight"
+                              onClick={onClickAutofill}
+                            >
+                              🔥{" "}
+                              <span className="italic">
+                                {autofillLoading
+                                  ? "Autofilling..."
+                                  : "Autofill"}
+                              </span>
+                            </button>
+                          </span>
                         )}
                       </p>
                     </div>
@@ -403,21 +431,6 @@ export default function AddressPage({
                             className="ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
                             Reset
-                          </button>
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              const args = await getInputValues(
-                                address as string,
-                                currentFunction.name,
-                                abi
-                              );
-
-                              setArguments(args);
-                            }}
-                            className="ml-3 bg-transparent py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                          >
-                            Prefill
                           </button>
                         </div>
                       </form>
