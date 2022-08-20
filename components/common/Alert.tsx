@@ -36,6 +36,7 @@ export function Alert({
   body?: string;
   className?: string;
 }) {
+  const VariantIcon = VARIANT_ICONS[variant];
   return (
     <div
       className={`rounded-md p-4 ${VARIANT_BACKGROUND_COLOR[variant]} ${
@@ -44,12 +45,12 @@ export function Alert({
     >
       <div className="flex">
         <div className="flex-shrink-0">
-          <ExclamationIcon
+          <VariantIcon
             className={`'h-5 w-5 ${VARIANT_ICON_CLASS[variant]}`}
             aria-hidden="true"
           />
         </div>
-        <div className="ml-3">
+        <div className="ml-3 overflow-hidden">
           <h3 className={`text-sm font-medium ${VARIANT_TITLE_CLASS[variant]}`}>
             {title}
           </h3>
