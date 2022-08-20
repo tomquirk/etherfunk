@@ -17,8 +17,8 @@ const NavItem = ({
   return (
     <Link href={href} shallow>
       <a
-        className={`"mb-1 px-2 py-1 text-slate-900 text-sm hover:bg-slate-50 hover:underline rounded-md mb-1 " ${
-          selected ? "bg-slate-100" : ""
+        className={`"mb-1 px-2 py-1 text-slate-900 text-sm hover:bg-slate-100 hover:underline rounded-md mb-1 " ${
+          selected ? "bg-slate-200" : ""
         }`}
       >
         {children}

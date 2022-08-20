@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from "react";
 
 const BASE_CLASS =
-  "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full border-slate-300 rounded-md";
+  "border shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full border-slate-300 rounded-md";
 
 const SIZE_CLASSES = {
   medium: "py-2 px-4 text-sm",
