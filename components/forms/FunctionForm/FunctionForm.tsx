@@ -6,7 +6,7 @@ import { Button } from "../../common/buttons/Button";
 import { TransactionButton } from "../../common/buttons/TransactionButton";
 import { Input } from "../../common/form/Input";
 
-export type FunctionFormValues = Array<string | number>;
+export type FunctionFormValues = Array<string | number | boolean>;
 export interface OnSubmitValue {
   functionArguments: FunctionFormValues;
   payableValue: string;
@@ -32,7 +32,10 @@ export function FunctionForm({
   const router = useRouter();
   const { currentFunction } = useContext(ContractContext);
 
-  const onFieldChange = (fieldIdx: number, value: string) => {
+  const onFieldChange = (
+    fieldIdx: number,
+    value: string | number | boolean
+  ) => {
     // set state
     const newArgs = [...values];
     newArgs[fieldIdx] = value;
@@ -69,33 +72,66 @@ export function FunctionForm({
       )}
       {currentFunction.inputs.length > 0 && (
         <div className="mb-3">
-          {currentFunction.inputs.map((fn: any, i: number) => (
-            <div key={`${i}-${fn.name}`} className="mb-5">
-              <div className="flex justify-between">
-                <label
-                  htmlFor={`${i}-${fn.name}`}
-                  className="block text-sm font-medium text-slate-700"
+          {currentFunction.inputs.map((argument: any, idx: number) => {
+            if (argument.type === "bool") {
+              const checked = values[idx] === true || values[idx] === "true";
+              return (
+                <div
+                  key={`${idx}-${argument.name}`}
+                  className="relative flex items-start mb-5"
                 >
-                  {fn.name || "Unnamed input"}
-                </label>
-                <span className="text-sm text-slate-500" id="email-optional">
-                  {fn.type}
-                </span>
+                  <div className="flex items-center h-5">
+                    <input
+                      id={`${idx}-${argument.name}`}
+                      name={`${idx}-${argument.name}`}
+                      type="checkbox"
+                      className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-slate-300 rounded"
+                      onChange={(e) => {
+                        onFieldChange(idx, e.target.checked);
+                      }}
+                      checked={checked}
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label
+                      htmlFor={`${idx}-${argument.name}`}
+                      className="font-medium text-gray-700"
+                    >
+                      {argument.name}
+                    </label>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div key={`${idx}-${argument.name}`} className="mb-5">
+                <div className="flex justify-between">
+                  <label
+                    htmlFor={`${idx}-${argument.name}`}
+                    className="block text-sm font-medium text-slate-700"
+                  >
+                    {argument.name || "Unnamed input"}
+                  </label>
+                  <span className="text-sm text-slate-500" id="email-optional">
+                    {argument.type}
+                  </span>
+                </div>
+                <div className="mt-1">
+                  <Input
+                    type="text"
+                    name={`${idx}-${argument.name}`}
+                    id={`${idx}-${argument.name}`}
+                    aria-describedby="email-optional"
+                    onChange={(e) => {
+                      onFieldChange(idx, e.target.value);
+                    }}
+                    value={(values[idx] as string) ?? ""}
+                  />
+                </div>
               </div>
-              <div className="mt-1">
-                <Input
-                  type="text"
-                  name={`${i}-${fn.name}`}
-                  id={`${i}-${fn.name}`}
-                  aria-describedby="email-optional"
-                  onChange={(e) => {
-                    onFieldChange(i, e.target.value);
-                  }}
-                  value={values[i] ?? ""}
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
           {currentFunction.stateMutability == "payable" && (
             <div className="mb-5 mt-10">
               <div className="flex justify-between">
