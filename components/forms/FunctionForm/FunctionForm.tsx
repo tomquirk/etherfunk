@@ -39,6 +39,8 @@ export function FunctionForm({
     useContext(NetworkContext);
 
   const [loadingSimulation, setLoadingSimulation] = useState<boolean>(false);
+  const [simulationResult, setSimulationResult] = useState<any>();
+  const [simulationError, setSimulationError] = useState<any>();
 
   const onFieldChange = (
     fieldIdx: number,
@@ -173,73 +175,108 @@ export function FunctionForm({
         </div>
       )}
 
-      <div className="flex mt-10">
-        {currentFunction.stateMutability === "view" ? (
-          <Button className="mr-3" type="submit" loading={loading}>
-            Read contract
-          </Button>
-        ) : (
-          <>
-            <TransactionButton className="mr-3">
-              Submit transaction
-            </TransactionButton>
-
-            {connectedWalletAddress && (
-              <Button
-                type="button"
-                variant="secondary"
-                className="mr-3"
-                loading={loadingSimulation}
-                onClick={async () => {
-                  if (!contractAddress) return;
-
-                  setLoadingSimulation(true);
-
-                  try {
-                    const contract = new Contract(
-                      contractAddress,
-                      abi,
-                      signingProvider?.getSigner() ?? readProvider
-                    );
-
-                    await simulateTransaction({
-                      contract,
-                      functionName: currentFunction.name,
-                      args: values,
-                      userAddress: connectedWalletAddress,
-                    });
-                  } catch (e) {
-                    console.error(e);
-                  } finally {
-                    setLoadingSimulation(false);
-                  }
-                }}
+      <div className="mt-10">
+        {simulationResult && (
+          <div className="mb-5">
+            <Alert
+              variant="success"
+              title="Simulation successful."
+              body={
+                <p>
+                  A transaction was successfully simulated with this data.
+                  {/*{" "} <a
+                className="underline hover:text-green-900 whitespace-nowrap"
+                href=""
               >
-                Simulate
-              </Button>
-            )}
-          </>
+                Read simulation report.
+              </a> */}
+                </p>
+              }
+            />
+          </div>
         )}
 
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
+        {simulationError && (
+          <div className="mb-5">
+            <Alert
+              variant="danger"
+              title="Simulation failed."
+              body={simulationError.message}
+            />
+          </div>
+        )}
 
-            onChange([]);
-            router.replace(
-              {
-                pathname: router.pathname,
-                query: { ...router.query, args: undefined },
-              },
-              undefined,
-              { shallow: true }
-            );
-          }}
-          type="button"
-          variant="tertiary"
-        >
-          Reset
-        </Button>
+        <div className="flex mb-5">
+          {currentFunction.stateMutability === "view" ? (
+            <Button className="mr-3" type="submit" loading={loading}>
+              Read contract
+            </Button>
+          ) : (
+            <>
+              <TransactionButton>Submit transaction</TransactionButton>
+
+              {connectedWalletAddress && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="ml-3"
+                  loading={loadingSimulation}
+                  onClick={async () => {
+                    if (!contractAddress) return;
+
+                    setLoadingSimulation(true);
+                    setSimulationError(undefined);
+                    setSimulationResult(undefined);
+
+                    try {
+                      const contract = new Contract(
+                        contractAddress,
+                        abi,
+                        signingProvider?.getSigner() ?? readProvider
+                      );
+
+                      const res = await simulateTransaction({
+                        contract,
+                        functionName: currentFunction.name,
+                        args: values,
+                        userAddress: connectedWalletAddress,
+                      });
+
+                      setSimulationResult(res);
+                    } catch (e) {
+                      setSimulationError(e);
+                    } finally {
+                      setLoadingSimulation(false);
+                    }
+                  }}
+                >
+                  Simulate
+                </Button>
+              )}
+            </>
+          )}
+
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+
+              onChange([]);
+              router.replace(
+                {
+                  pathname: router.pathname,
+                  query: { ...router.query, args: undefined },
+                },
+                undefined,
+                { shallow: true }
+              );
+            }}
+            type="button"
+            variant="tertiary"
+            className="ml-3"
+          >
+            Reset
+          </Button>
+        </div>
       </div>
     </form>
   );

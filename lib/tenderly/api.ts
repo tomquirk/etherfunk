@@ -47,7 +47,9 @@ export const simulateTransaction = async ({
   );
 
   if (resp.data.simulation.status === false) {
-    throw new Error("Transaction is going to fail");
+    throw new Error(
+      "A transaction was simulated with this data, and failed. Fix the data and try again."
+    );
   }
 
   return resp.data;
