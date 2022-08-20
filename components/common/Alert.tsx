@@ -11,8 +11,8 @@ const VARIANT_BACKGROUND_COLOR = {
 };
 
 const VARIANT_ICON_CLASS = {
-  danger: "text-red-400",
-  warning: "text-yellow-400",
+  danger: "text-red-500",
+  warning: "text-yellow-500",
 };
 
 const VARIANT_TITLE_CLASS = {
