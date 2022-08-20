@@ -4,7 +4,7 @@ import { Button } from "./Button";
 import { ConnectWalletButton } from "./ConnectWalletButton";
 
 export function TransactionButton(
-  props: Omit<React.HTMLProps<HTMLButtonElement>, "type">
+  props: Omit<React.HTMLProps<HTMLButtonElement>, "type" | "size">
 ) {
   const { connectedWalletAddress } = useContext(NetworkContext);
   if (!connectedWalletAddress) {

@@ -1,8 +1,9 @@
 import { CurrencyDollarIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Input } from "../../components/common/form/Input";
+import { useContext, useState } from "react";
+import { ContractContext } from "../../contexts/ContractContext";
+import { Input } from "../common/form/Input";
 
 const NavItem = ({
   href,
@@ -28,10 +29,7 @@ const NavItem = ({
 
 export default function Nav({ functions }: { functions: any[] }) {
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const router = useRouter();
-
-  const { address, fn } = router.query;
+  const { contractAddress, currentFunction } = useContext(ContractContext);
 
   const filteredFunctions =
     functions?.filter((f) =>
@@ -78,9 +76,9 @@ export default function Nav({ functions }: { functions: any[] }) {
             {readFunctions.map((readFunction: any, idx: number) => {
               return (
                 <NavItem
-                  href={`/address/${address}?fn=${readFunction.name}`}
+                  href={`/address/${contractAddress}?fn=${readFunction.name}`}
                   key={`${readFunction.name}-${idx}`}
-                  selected={fn === readFunction.name}
+                  selected={currentFunction?.name === readFunction.name}
                 >
                   {readFunction.name}
                 </NavItem>
@@ -103,9 +101,9 @@ export default function Nav({ functions }: { functions: any[] }) {
             {writeFunctions.map((writeFunction: any, idx: number) => {
               return (
                 <NavItem
-                  href={`/address/${address}?fn=${writeFunction.name}`}
+                  href={`/address/${contractAddress}?fn=${writeFunction.name}`}
                   key={`${writeFunction.name}-${idx}`}
-                  selected={fn === writeFunction.name}
+                  selected={currentFunction?.name === writeFunction.name}
                 >
                   {writeFunction.name}
                 </NavItem>
@@ -114,9 +112,9 @@ export default function Nav({ functions }: { functions: any[] }) {
             {payableFunctions.map((payableFunction: any, idx: number) => {
               return (
                 <NavItem
-                  href={`/address/${address}?fn=${payableFunction.name}`}
+                  href={`/address/${contractAddress}?fn=${payableFunction.name}`}
                   key={`${payableFunction.name}-${idx}`}
-                  selected={fn === payableFunction.name}
+                  selected={currentFunction?.name === payableFunction.name}
                 >
                   <span className="flex items-center">
                     {payableFunction.name}

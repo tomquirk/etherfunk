@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { init, useConnectWallet } from "@web3-onboard/react";
 import injectedModule from "@web3-onboard/injected-wallets";
-import { ethers } from "ethers";
+import { Web3Provider } from "@ethersproject/providers";
 import { NetworkContext } from "../../../contexts/NetworkContext";
 import { rpcUrl } from "../../../constants/network";
 import { Button } from "./Button";
@@ -39,10 +39,7 @@ export function ConnectWalletButton({
 
   useEffect(() => {
     if (wallet) {
-      const ethersProvider = new ethers.providers.Web3Provider(
-        wallet.provider,
-        "any"
-      );
+      const ethersProvider = new Web3Provider(wallet.provider, "any");
       if (!ethersProvider) return;
 
       setSigningProvider?.(ethersProvider);

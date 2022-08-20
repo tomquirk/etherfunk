@@ -1,10 +1,13 @@
 import axios from "axios";
-import { BigNumber, ethers, Transaction } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
+import { Transaction } from "@ethersproject/transactions";
+import { Result } from "@ethersproject/abi";
+import { Interface } from "@ethersproject/abi";
 
 /**
  * Return array of the most common args from given sets of args
  */
-const mergeArgs = (args: ethers.utils.Result[]): any[] => {
+const mergeArgs = (args: Result[]): any[] => {
   const occurences: { [k in string]: number }[] = [];
 
   args.forEach((argSet) => {
@@ -54,7 +57,7 @@ export const getInputValues = async (
   functionName: string,
   ABI: string
 ) => {
-  const contractInterface = new ethers.utils.Interface(ABI);
+  const contractInterface = new Interface(ABI);
   const getTransactionArgs = (tx: any) => {
     const decodedData = contractInterface.decodeFunctionData(
       functionName,

@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
 
 const RenderResult = ({ result }: { result: any }) => {
   if (Array.isArray(result)) {
