@@ -2,11 +2,14 @@ import { ButtonHTMLAttributes } from "react";
 import { Spinner } from "../Spinner";
 
 const BASE_CLASSES =
-  "border rounded-md shadow-sm inline-flex justify-center items-center font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500";
+  "rounded-md inline-flex justify-center transition-colors items-center font-normal focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500";
 
 const VARIANT_CLASSES = {
-  primary: "bg-blue-700 hover:bg-blue-600 border-transparent text-white",
-  secondary: "bg-white hover:bg-gray-50 border-gray-300 text-gray-700",
+  primary:
+    "bg-blue-700 hover:bg-blue-600 border border-transparent text-white shadow-sm",
+  secondary:
+    "bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 shadow-sm",
+  tertiary: "bg-transparent hover:bg-gray-200 text-gray-900",
 };
 
 const SIZE_CLASSES = {
@@ -22,7 +25,7 @@ export function Button({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "tertiary";
   size?: "medium" | "large";
 }) {
   const className = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${

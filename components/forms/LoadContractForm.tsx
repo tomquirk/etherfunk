@@ -31,7 +31,7 @@ export function LoadContractForm({
         className="mb-3 border-slate-500"
         size="large"
       />
-      <Button loading={loading} size="large" className="w-full">
+      <Button loading={loading} size="large" className="w-full font-medium">
         Load it up
       </Button>
     </form>

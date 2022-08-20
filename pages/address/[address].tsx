@@ -24,6 +24,9 @@ import {
   ContractContext,
   ContractContextProvider,
 } from "../../contexts/ContractContext";
+import { simulateTransaction } from "../../lib/tenderly/api";
+import { Button } from "../../components/common/buttons/Button";
+import { Alert } from "../../components/common/Alert";
 
 /**
  * Get functions from an ABI
@@ -96,7 +99,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 function AddressPage({ serverSideError }: { serverSideError: string }) {
-  const { signingProvider } = useContext(NetworkContext);
+  const { signingProvider, connectedWalletAddress } =
+    useContext(NetworkContext);
   const {
     currentFunction,
     contractAddress,
@@ -242,17 +246,32 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                         </p>
                       </div>
                     ) : (
-                      <FunctionForm
-                        errorMessage={errorMessage}
-                        loading={loading}
-                        values={functionArguments}
-                        payableValue={payableValue}
-                        onSubmit={onSubmit}
-                        onChange={(newArgs) => setArguments(newArgs)}
-                        onPayableValueChange={(newPayableValue) =>
-                          setPayableValue(newPayableValue)
-                        }
-                      />
+                      <>
+                        {" "}
+                        {currentFunction.stateMutability === "payable" && (
+                          <Alert
+                            variant="warning"
+                            title="You're about to pay a smart contract."
+                            body="This function is payable. Executing it will transfer funds from
+      your wallet to the contract. Etherfunk may
+      have bugs. Verify the
+      transaction data before submitting the
+      transaction"
+                            className="mb-5"
+                          />
+                        )}
+                        <FunctionForm
+                          errorMessage={errorMessage}
+                          loading={loading}
+                          values={functionArguments}
+                          payableValue={payableValue}
+                          onSubmit={onSubmit}
+                          onChange={(newArgs) => setArguments(newArgs)}
+                          onPayableValueChange={(newPayableValue) =>
+                            setPayableValue(newPayableValue)
+                          }
+                        />
+                      </>
                     )}
                   </div>
 

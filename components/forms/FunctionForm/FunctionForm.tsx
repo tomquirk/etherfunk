@@ -1,6 +1,10 @@
+import { Contract } from "ethers";
 import { useRouter } from "next/router";
 import { FormEventHandler, useContext, useState } from "react";
+import { readProvider } from "../../../constants/network";
 import { ContractContext } from "../../../contexts/ContractContext";
+import { NetworkContext } from "../../../contexts/NetworkContext";
+import { simulateTransaction } from "../../../lib/tenderly/api";
 import { Alert } from "../../common/Alert";
 import { Button } from "../../common/buttons/Button";
 import { TransactionButton } from "../../common/buttons/TransactionButton";
@@ -30,7 +34,11 @@ export function FunctionForm({
   onPayableValueChange: (newPayableValue: string) => void;
 }) {
   const router = useRouter();
-  const { currentFunction } = useContext(ContractContext);
+  const { currentFunction, contractAddress, abi } = useContext(ContractContext);
+  const { connectedWalletAddress, signingProvider } =
+    useContext(NetworkContext);
+
+  const [loadingSimulation, setLoadingSimulation] = useState<boolean>(false);
 
   const onFieldChange = (
     fieldIdx: number,
@@ -133,13 +141,13 @@ export function FunctionForm({
             );
           })}
           {currentFunction.stateMutability == "payable" && (
-            <div className="mb-5 mt-10">
+            <div className="mt-5">
               <div className="flex justify-between">
                 <label
                   htmlFor="payable-value"
                   className="block text-sm font-medium text-slate-700"
                 >
-                  Value
+                  Ether value
                 </label>
                 <span className="text-sm text-slate-500" id="payable-value">
                   ETH
@@ -157,31 +165,62 @@ export function FunctionForm({
                   value={payableValue ?? ""}
                 />
               </div>
+              <p className="mt-1 text-sm text-slate-500">
+                The amount of Ether to send with the transaction.
+              </p>
             </div>
           )}
         </div>
       )}
-      {currentFunction.stateMutability === "payable" && (
-        <Alert
-          variant="warning"
-          title="You're about to pay a smart contract."
-          body="This transaction will transfer funds from
-      your wallet to the contract. Etherfunk may
-      have bugs. Before submitting the
-      transaction, make sure you verify the
-      transaction data."
-          className="mb-5"
-        />
-      )}
 
-      <div className="flex">
+      <div className="flex mt-10">
         {currentFunction.stateMutability === "view" ? (
-          <Button type="submit" loading={loading}>
+          <Button className="mr-3" type="submit" loading={loading}>
             Read contract
           </Button>
         ) : (
-          <TransactionButton>Submit transaction</TransactionButton>
+          <>
+            <TransactionButton className="mr-3">
+              Submit transaction
+            </TransactionButton>
+
+            {connectedWalletAddress && (
+              <Button
+                type="button"
+                variant="secondary"
+                className="mr-3"
+                loading={loadingSimulation}
+                onClick={async () => {
+                  if (!contractAddress) return;
+
+                  setLoadingSimulation(true);
+
+                  try {
+                    const contract = new Contract(
+                      contractAddress,
+                      abi,
+                      signingProvider?.getSigner() ?? readProvider
+                    );
+
+                    await simulateTransaction({
+                      contract,
+                      functionName: currentFunction.name,
+                      args: values,
+                      userAddress: connectedWalletAddress,
+                    });
+                  } catch (e) {
+                    console.error(e);
+                  } finally {
+                    setLoadingSimulation(false);
+                  }
+                }}
+              >
+                Simulate
+              </Button>
+            )}
+          </>
         )}
+
         <Button
           onClick={(e) => {
             e.preventDefault();
@@ -197,8 +236,7 @@ export function FunctionForm({
             );
           }}
           type="button"
-          variant="secondary"
-          className="ml-3"
+          variant="tertiary"
         >
           Reset
         </Button>
