@@ -30,7 +30,7 @@ export function ExploreSection() {
       </span>
       {CONTRACTS.map((c) => (
         <Link href={`/address/${c.address}`} key={c.address}>
-          <a className="text-sm underline text-slate-800 hover:text-blue-800">
+          <a className="text-sm hover:underline text-blue-600 hover:text-blue-800 visited:text-purple-800">
             {c.name}
           </a>
         </Link>

@@ -220,13 +220,13 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                     </div>
                     <div>
                       <a
-                        className="text-sm font-normal text-slate-500 mb-5 flex items-center hover:text-blue-700"
+                        className="text-sm font-normal text-sky-600 mb-5 flex items-center hover:underline visited:text-purple-800"
                         href={`https://etherscan.io/address/${contractAddress}#readContract`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <EtherscanLogo />
-                        <span className="ml-1">View on Etherscan</span>
+                        <span className="ml-2">Etherscan</span>
                       </a>
                     </div>
                   </div>

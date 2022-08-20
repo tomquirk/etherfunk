@@ -16,7 +16,7 @@ export default function Breadcrumbs({
         <li>
           <div>
             <Link href="/">
-              <a className="text-slate-400 hover:text-slate-500">
+              <a className="text-slate-500 hover:underline hover:text-blue-800">
                 <HomeIcon
                   className="flex-shrink-0 h-4 w-4"
                   aria-hidden="true"
@@ -34,7 +34,7 @@ export default function Breadcrumbs({
               aria-hidden="true"
             />
             <Link href={`/address/${address}`}>
-              <a className="ml-4 text-sm font-normal text-slate-500 hover:text-slate-700">
+              <a className="ml-4 text-sm font-normal text-slate-500 hover:underline hover:text-blue-800">
                 {contractName || address}
               </a>
             </Link>
@@ -49,7 +49,7 @@ export default function Breadcrumbs({
                 aria-hidden="true"
               />
               <Link href={`/address/${address}?fn=${fn}`}>
-                <a className="ml-4 text-sm font-normal text-slate-500 hover:text-slate-700">
+                <a className="ml-4 text-sm font-normal text-slate-500 hover:underline hover:text-blue-800">
                   {fn}
                 </a>
               </Link>
