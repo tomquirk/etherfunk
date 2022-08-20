@@ -1,6 +1,6 @@
 import { Contract } from "ethers";
 import { useRouter } from "next/router";
-import { FormEventHandler, useContext, useState } from "react";
+import { FormEventHandler, useContext, useEffect, useState } from "react";
 import { readProvider } from "../../../constants/network";
 import { ContractContext } from "../../../contexts/ContractContext";
 import { NetworkContext } from "../../../contexts/NetworkContext";
@@ -41,6 +41,11 @@ export function FunctionForm({
   const [loadingSimulation, setLoadingSimulation] = useState<boolean>(false);
   const [simulationResult, setSimulationResult] = useState<any>();
   const [simulationError, setSimulationError] = useState<any>();
+
+  useEffect(() => {
+    setSimulationError(undefined);
+    setSimulationResult(undefined);
+  }, [currentFunction]);
 
   const onFieldChange = (
     fieldIdx: number,
@@ -182,15 +187,26 @@ export function FunctionForm({
               variant="success"
               title="Simulation successful."
               body={
-                <p>
-                  A transaction was successfully simulated with this data.
-                  {/*{" "} <a
+                <>
+                  <p>
+                    A transaction was successfully simulated with this data.
+                    {/*{" "} <a
                 className="underline hover:text-green-900 whitespace-nowrap"
                 href=""
               >
                 Read simulation report.
               </a> */}
-                </p>
+                  </p>
+                  {simulationResult?.transaction?.gas_used && (
+                    <p className="mt-1">
+                      Used{" "}
+                      <span className="font-mono">
+                        {simulationResult.transaction.gas_used.toString()}
+                      </span>{" "}
+                      <span className="font-medium">gwei</span> gas.
+                    </p>
+                  )}
+                </>
               }
             />
           </div>
@@ -208,7 +224,7 @@ export function FunctionForm({
 
         <div className="flex mb-5">
           {currentFunction.stateMutability === "view" ? (
-            <Button className="mr-3" type="submit" loading={loading}>
+            <Button type="submit" loading={loading}>
               Read contract
             </Button>
           ) : (
@@ -255,27 +271,28 @@ export function FunctionForm({
               )}
             </>
           )}
+          {currentFunction.inputs.length > 0 && (
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
 
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-
-              onChange([]);
-              router.replace(
-                {
-                  pathname: router.pathname,
-                  query: { ...router.query, args: undefined },
-                },
-                undefined,
-                { shallow: true }
-              );
-            }}
-            type="button"
-            variant="tertiary"
-            className="ml-3"
-          >
-            Reset
-          </Button>
+                onChange([]);
+                router.replace(
+                  {
+                    pathname: router.pathname,
+                    query: { ...router.query, args: undefined },
+                  },
+                  undefined,
+                  { shallow: true }
+                );
+              }}
+              type="button"
+              variant="tertiary"
+              className="ml-3"
+            >
+              Reset
+            </Button>
+          )}
         </div>
       </div>
     </form>
