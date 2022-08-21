@@ -11,7 +11,7 @@ export function FooterLinks() {
       </a>
       <span className="mx-2 text-slate-400 font-light">|</span>
       <a
-        href="https://juicebox.money/v2/p/163"
+        href="https://juicebox.money/@etherfunkio"
         className="text-sm hover:underline text-blue-600 hover:text-blue-800 visited:text-purple-800"
         target="_blank"
         rel="noopener noreferrer"
