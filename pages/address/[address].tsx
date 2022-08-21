@@ -208,7 +208,8 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                       </h1>
 
                       <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
-                        {currentFunction.inputs.length === 0 ? (
+                        {currentFunction.inputs.length === 0 &&
+                        currentFunction.stateMutability !== "payable" ? (
                           <>This function has no inputs.</>
                         ) : (
                           <span>

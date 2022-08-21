@@ -147,36 +147,37 @@ export function FunctionForm({
               </div>
             );
           })}
-          {currentFunction.stateMutability == "payable" && (
-            <div className="mt-5">
-              <div className="flex justify-between">
-                <label
-                  htmlFor="payable-value"
-                  className="block text-sm font-medium text-slate-700"
-                >
-                  Ether value
-                </label>
-                <span className="text-sm text-slate-500" id="payable-value">
-                  ETH
-                </span>
-              </div>
-              <div className="mt-1">
-                <Input
-                  type="text"
-                  name="payable-value"
-                  id="payable-value"
-                  aria-describedby="payable-value"
-                  onChange={(e) => {
-                    onPayableValueChange(e.target.value);
-                  }}
-                  value={payableValue ?? ""}
-                />
-              </div>
-              <p className="mt-1 text-sm text-slate-500">
-                The amount of Ether to send with the transaction.
-              </p>
-            </div>
-          )}
+        </div>
+      )}
+
+      {currentFunction.stateMutability == "payable" && (
+        <div className="mt-5">
+          <div className="flex justify-between">
+            <label
+              htmlFor="payable-value"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Ether value
+            </label>
+            <span className="text-sm text-slate-500" id="payable-value">
+              ETH
+            </span>
+          </div>
+          <div className="mt-1">
+            <Input
+              type="text"
+              name="payable-value"
+              id="payable-value"
+              aria-describedby="payable-value"
+              onChange={(e) => {
+                onPayableValueChange(e.target.value);
+              }}
+              value={payableValue ?? ""}
+            />
+          </div>
+          <p className="mt-1 text-sm text-slate-500">
+            The amount of Ether to send with the transaction.
+          </p>
         </div>
       )}
 
