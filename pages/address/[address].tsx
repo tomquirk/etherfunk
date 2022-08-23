@@ -24,8 +24,6 @@ import {
   ContractContext,
   ContractContextProvider,
 } from "../../contexts/ContractContext";
-import { simulateTransaction } from "../../lib/tenderly/api";
-import { Button } from "../../components/common/buttons/Button";
 import { Alert } from "../../components/common/Alert";
 
 /**
@@ -99,8 +97,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 function AddressPage({ serverSideError }: { serverSideError: string }) {
-  const { signingProvider, connectedWalletAddress } =
-    useContext(NetworkContext);
+  const { signingProvider } = useContext(NetworkContext);
   const {
     currentFunction,
     contractAddress,
@@ -112,7 +109,8 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
   const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [functionArguments, setArguments] = useState<FunctionFormValues>([]);
+  const [functionArguments, setFunctionArguments] =
+    useState<FunctionFormValues>([]);
   const [payableValue, setPayableValue] = useState<string>("");
   const [result, setResult] = useState<any>();
 
@@ -120,26 +118,35 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
 
   // only run on initial render
   useEffect(() => {
-    const { args } = router.query;
+    const { args, run } = router.query;
     try {
       if (!args) throw new Error();
       const parsed = JSON.parse(args as string);
-      setArguments(parsed);
+      setFunctionArguments(parsed);
     } catch (e) {
-      setArguments([]);
+      setFunctionArguments([]);
     }
     setInitialLoadDone(true);
   }, []);
 
   useEffect(() => {
+    const { run } = router.query;
+
+    if (!initialLoadDone) return;
+    if (run) {
+      onSubmit();
+    }
+  }, [initialLoadDone]);
+
+  useEffect(() => {
     setResult(undefined);
     setErrorMessage("");
-    // if the initial page load has already happened,
+    // If the initial page load has already happened,
     // we can reset state.
-    // if the user comes in cold, this won't be called.
-    // if they click a link from the sidebar, it will be called.
+    // Example: if user clicks a link from the sidebar, reset the state.
+    // If the user comes in cold, this won't be called.
     if (initialLoadDone) {
-      setArguments([]);
+      setFunctionArguments([]);
     }
   }, [currentFunction]);
 
@@ -216,7 +223,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                             Complete the form and call this function.
                             {currentFunction.stateMutability !== "view" && (
                               <AutofillButton
-                                onChange={(args) => setArguments(args)}
+                                onChange={(args) => setFunctionArguments(args)}
                               />
                             )}
                           </span>
@@ -267,7 +274,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                           values={functionArguments}
                           payableValue={payableValue}
                           onSubmit={onSubmit}
-                          onChange={(newArgs) => setArguments(newArgs)}
+                          onChange={(newArgs) => setFunctionArguments(newArgs)}
                           onPayableValueChange={(newPayableValue) =>
                             setPayableValue(newPayableValue)
                           }
