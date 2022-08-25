@@ -85,6 +85,7 @@ export function FunctionForm({
           />
         </div>
       )}
+
       {currentFunction.inputs.length > 0 && (
         <div className="mb-3">
           {currentFunction.inputs.map((argument: any, idx: number) => {
@@ -151,7 +152,7 @@ export function FunctionForm({
       )}
 
       {currentFunction.stateMutability == "payable" && (
-        <div className="mt-5">
+        <div>
           <div className="flex justify-between">
             <label
               htmlFor="payable-value"
@@ -181,7 +182,7 @@ export function FunctionForm({
         </div>
       )}
 
-      <div className="mt-10">
+      <div className="mt-5">
         {simulationResult && (
           <div className="mb-5">
             <Alert

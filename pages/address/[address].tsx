@@ -219,14 +219,14 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                         {currentFunction.name}
                       </h1>
 
-                      <div className="flex items-center mb-7">
+                      <div className="flex items-center mb-8">
                         <span className="uppercase mr-4 text-xs text-slate-500 tracking-wide flex items-center">
                           {currentFunction.stateMutability === "view" ? (
-                            <BookOpenIcon className="h-4 w-4" />
+                            <BookOpenIcon className="h-3 w-3" />
                           ) : currentFunction.stateMutability === "payable" ? (
-                            <CurrencyDollarIcon className="h-4 w-4" />
+                            <CurrencyDollarIcon className="h-3 w-3" />
                           ) : (
-                            <PencilIcon className="h-4 w-4" />
+                            <PencilIcon className="h-3 w-3" />
                           )}{" "}
                           <span className="ml-1">
                             {currentFunction.stateMutability}
@@ -243,21 +243,21 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                         </a>
                       </div>
 
-                      <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
+                      <div className="text-sm font-normal text-slate-500">
                         {currentFunction.inputs.length === 0 &&
                         currentFunction.stateMutability !== "payable" ? (
-                          <>This function has no inputs.</>
+                          <p>This function has no inputs.</p>
                         ) : (
-                          <span>
+                          <p className="mb-5">
                             Complete the form and call this function.
                             {currentFunction.stateMutability !== "view" && (
                               <AutofillButton
                                 onChange={(args) => setFunctionArguments(args)}
                               />
                             )}
-                          </span>
+                          </p>
                         )}
-                      </p>
+                      </div>
                     </div>
                   </div>
                 )}
