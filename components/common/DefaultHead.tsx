@@ -30,7 +30,6 @@ export function DefaultMeta() {
   return (
     <>
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://etherfunk.io" />
       <meta
         property="og:image"
         content="https://etherfunk.io/android-chrome-256x256.png"

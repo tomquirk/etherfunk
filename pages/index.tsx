@@ -32,6 +32,7 @@ const Home: NextPage = () => {
           name="og:description"
           content="Interact with any smart contract on Ethereum."
         />
+        <meta property="og:url" content="https://etherfunk.io" />
 
         <Favicon />
         <DefaultMeta />
