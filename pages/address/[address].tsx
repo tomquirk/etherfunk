@@ -17,7 +17,11 @@ import { ResultCard } from "../../components/ResultCard";
 import Breadcrumbs from "../../components/common/Breadcrumb";
 import Nav from "../../components/layout/Nav";
 import { EtherscanLogo } from "../../components/common/icons/EtherscanLogo";
-import { DefaultHead } from "../../components/common/DefaultHead";
+import {
+  DefaultMeta,
+  FathomScript,
+  Favicon,
+} from "../../components/common/DefaultHead";
 import { NetworkContext } from "../../contexts/NetworkContext";
 import {
   FunctionForm,
@@ -30,6 +34,7 @@ import {
   ContractContextProvider,
 } from "../../contexts/ContractContext";
 import { Alert } from "../../components/common/Alert";
+import { truncateEthAddress } from "../../utils/string";
 
 /**
  * Get functions from an ABI
@@ -123,7 +128,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
 
   // only run on initial render
   useEffect(() => {
-    const { args, run } = router.query;
+    const { args } = router.query;
     try {
       if (!args) throw new Error();
       const parsed = JSON.parse(args as string);
@@ -320,17 +325,35 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
   );
 }
 
+const DESCRIPTION_SUFFIX =
+  "Interact with smart contracts on Ethereum with Etherfunk.";
+
 export default function AddressPageRender({
   functions,
   abi,
   contractMetadata,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+  const { fn, address } = router.query;
+
+  const title = fn
+    ? `${fn} | ${contractMetadata.name} ${address}`
+    : `${contractMetadata.name} ${address}`;
+
+  const description = fn
+    ? `Call any function on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`
+    : `Call function ${fn} on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`;
+
   return (
     <>
       <Head>
-        <title>Etherfunk</title>
-        <DefaultHead />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        <Favicon />
+        <DefaultMeta />
+        <FathomScript />
       </Head>
 
       <ContractContextProvider

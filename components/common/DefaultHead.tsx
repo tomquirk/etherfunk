@@ -1,4 +1,4 @@
-export function DefaultHead() {
+export function Favicon() {
   return (
     <>
       <link
@@ -22,29 +22,29 @@ export function DefaultHead() {
       <link rel="icon" href="/favicon.ico" />
       <meta name="msapplication-TileColor" content="#013076" />
       <meta name="theme-color" content="#ffffff"></meta>
-      <meta
-        name="description"
-        content="Your Ethereum control panel. Interact with smart contracts on Ethereum."
-      />
+    </>
+  );
+}
+
+export function DefaultMeta() {
+  return (
+    <>
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://etherfunk.io" />
       <meta
         property="og:image"
         content="https://etherfunk.io/android-chrome-256x256.png"
       />
-      <meta
-        property="og:title"
-        content="Etherfunk | Your Ethereum control panel"
-      />
-      <meta
-        name="og:description"
-        content="Interact with any smart contract on Ethereum."
-      />
-      <script
-        src="https://tvc15-essential.etherfunk.io/script.js"
-        data-site="JIKXTFHK"
-        defer
-      ></script>
     </>
+  );
+}
+
+export function FathomScript() {
+  return (
+    <script
+      src="https://tvc15-essential.etherfunk.io/script.js"
+      data-site="JIKXTFHK"
+      defer
+    ></script>
   );
 }

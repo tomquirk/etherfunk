@@ -1,7 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { DefaultHead } from "../components/common/DefaultHead";
+import {
+  DefaultMeta,
+  FathomScript,
+  Favicon,
+} from "../components/common/DefaultHead";
 import { ExploreSection } from "../components/ExploreSection";
 import { FooterLinks } from "../components/FooterLinks";
 import { LoadContractForm } from "../components/forms/LoadContractForm";
@@ -16,7 +20,22 @@ const Home: NextPage = () => {
     <div className="h-screen bg-slate-50 px-4">
       <Head>
         <title>Etherfunk</title>
-        <DefaultHead />
+        <meta
+          name="description"
+          content="Your Ethereum control panel. Interact with smart contracts on Ethereum."
+        />
+        <meta
+          property="og:title"
+          content="Etherfunk | Your Ethereum control panel"
+        />
+        <meta
+          name="og:description"
+          content="Interact with any smart contract on Ethereum."
+        />
+
+        <Favicon />
+        <DefaultMeta />
+        <FathomScript />
       </Head>
 
       <div className="h-full">
