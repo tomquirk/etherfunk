@@ -341,8 +341,8 @@ export default function AddressPageRender({
     : `${contractMetadata.name} ${address}`;
 
   const description = fn
-    ? `Call any function on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`
-    : `Call function ${fn} on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`;
+    ? `Call function ${fn} on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`
+    : `Call any function on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`;
 
   return (
     <>
