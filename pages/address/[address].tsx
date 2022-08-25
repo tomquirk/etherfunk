@@ -34,7 +34,6 @@ import {
   ContractContextProvider,
 } from "../../contexts/ContractContext";
 import { Alert } from "../../components/common/Alert";
-import { truncateEthAddress } from "../../utils/string";
 
 /**
  * Get functions from an ABI
@@ -143,7 +142,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
     const { run } = router.query;
 
     if (!initialLoadDone) return;
-    if (run) {
+    if (run && currentFunction.stateMutability === "view") {
       onSubmit();
     }
   }, [initialLoadDone]);
