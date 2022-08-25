@@ -1,7 +1,12 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ArrowCircleLeftIcon } from "@heroicons/react/outline";
+import {
+  ArrowCircleLeftIcon,
+  BookOpenIcon,
+  CurrencyDollarIcon,
+  PencilIcon,
+} from "@heroicons/react/outline";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
 import { useContext, useEffect, useState } from "react";
@@ -210,9 +215,33 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                 {currentFunction && (
                   <div className="mt-5 flex justify-between">
                     <div>
-                      <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                      <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
                         {currentFunction.name}
                       </h1>
+
+                      <div className="flex items-center mb-7">
+                        <span className="uppercase mr-4 text-xs text-slate-500 tracking-wide flex items-center">
+                          {currentFunction.stateMutability === "view" ? (
+                            <BookOpenIcon className="h-4 w-4" />
+                          ) : currentFunction.stateMutability === "payable" ? (
+                            <CurrencyDollarIcon className="h-4 w-4" />
+                          ) : (
+                            <PencilIcon className="h-4 w-4" />
+                          )}{" "}
+                          <span className="ml-1">
+                            {currentFunction.stateMutability}
+                          </span>
+                        </span>
+                        <a
+                          className="text-xs font-normal text-blue-600 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
+                          href={`https://etherscan.io/address/${contractAddress}#readContract`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <EtherscanLogo />
+                          <span className="ml-1">Etherscan</span>
+                        </a>
+                      </div>
 
                       <p className="mt-1 text-sm font-normal text-slate-500 mb-5">
                         {currentFunction.inputs.length === 0 &&
@@ -229,17 +258,6 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                           </span>
                         )}
                       </p>
-                    </div>
-                    <div>
-                      <a
-                        className="text-sm font-normal text-blue-600 mb-5 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
-                        href={`https://etherscan.io/address/${contractAddress}#readContract`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <EtherscanLogo />
-                        <span className="ml-2">Etherscan</span>
-                      </a>
                     </div>
                   </div>
                 )}
