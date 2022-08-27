@@ -63,12 +63,13 @@ export function ContractLayout({
             setSidebarOpen={setSidebarOpen}
           />
           <DesktopSidebar />
-          <div className="md:pl-80 flex flex-col">
+          <div className="md:pl-80 flex flex-col h-screen">
             <div className="flex-1">
               <Header setSidebarOpen={setSidebarOpen} />
               <Content>{children}</Content>
             </div>
-            {/* <Footer /> */}
+
+            <Footer />
           </div>
         </div>
       </ContractContextProvider>

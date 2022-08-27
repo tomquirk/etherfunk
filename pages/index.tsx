@@ -66,7 +66,9 @@ const Home: NextPage = () => {
             <ExploreSection />
           </div>
 
-          <FooterLinks />
+          <p className="mt-5 text-center text-slate-500 text-sm">
+            Powered by Etherscan
+          </p>
         </footer>
       </div>
     </div>

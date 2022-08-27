@@ -5,7 +5,7 @@ import Nav from "../Nav";
 export function DesktopSidebar() {
   return (
     <div className="hidden md:flex md:w-80 md:flex-col md:fixed md:inset-y-0  border-r border-slate-100">
-      <div className="flex flex-col flex-grow pt-5 px-4 bg-white overflow-y-auto">
+      <div className="flex flex-col flex-grow pt-4 px-4 bg-white overflow-y-auto">
         <div className="flex items-center flex-shrink-0 pl-2">
           <div className="flex items-center">
             <HomepageLink />
