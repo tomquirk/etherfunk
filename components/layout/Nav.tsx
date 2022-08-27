@@ -51,16 +51,16 @@ export default function Nav() {
 
   return (
     <>
-      <div className="mb-5 px-2">
+      <div className="mb-7 px-2">
         <label htmlFor="search" className="sr-only">
-          Search
+          Search functions
         </label>
         <div className="mb-3">
           <Input
             type="search"
             name="search"
             id="search"
-            placeholder="Search..."
+            placeholder="Search functions"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

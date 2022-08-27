@@ -65,8 +65,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const abiRes = await getAbi(address);
-  const contractRes = await getSourceCode(address);
+  const [abiRes, contractRes] = await Promise.all([
+    getAbi(address),
+    getSourceCode(address),
+  ]);
 
   if (abiRes.data.message === "NOTOK") {
     return {
@@ -185,18 +187,18 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
           </h1>
 
           <div className="flex items-center mb-8">
-            <span className="uppercase mr-4 text-xs text-slate-500 tracking-wide flex items-center">
+            <span className="uppercase mr-4 text-sm text-slate-500 tracking-wide flex items-center">
               {currentFunction.stateMutability === "view" ? (
-                <BookOpenIcon className="h-3 w-3" />
+                <BookOpenIcon className="h-4 w-4" />
               ) : currentFunction.stateMutability === "payable" ? (
-                <CurrencyDollarIcon className="h-3 w-3" />
+                <CurrencyDollarIcon className="h-4 w-4" />
               ) : (
-                <PencilIcon className="h-3 w-3" />
+                <PencilIcon className="h-4 w-4" />
               )}{" "}
               <span className="ml-1">{currentFunction.stateMutability}</span>
             </span>
             <a
-              className="text-xs font-normal text-blue-600 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
+              className="text-sm font-normal text-slate-500 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
               href={`https://etherscan.io/address/${contractAddress}#readContract`}
               target="_blank"
               rel="noopener noreferrer"

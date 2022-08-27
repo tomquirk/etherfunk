@@ -34,7 +34,7 @@ export function Button({
 
   return (
     <button {...props} className={className}>
-      {loading && <Spinner />}
+      {loading && <Spinner variant="secondary" />}
       {children}
     </button>
   );

@@ -13,7 +13,7 @@ export function DesktopSidebar() {
           </div>
         </div>
         <div className="mt-5 flex-1 flex flex-col">
-          <nav className="flex-1 pb-4 space-y-1 pt-4">
+          <nav className="flex-1 pb-4 space-y-1 pt-2">
             <Nav />
           </nav>
         </div>

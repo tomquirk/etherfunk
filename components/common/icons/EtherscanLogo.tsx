@@ -1,5 +1,5 @@
 export function EtherscanLogo() {
-  const dim = "12";
+  const dim = "14";
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

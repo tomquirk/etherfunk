@@ -1,9 +1,18 @@
-export function Spinner() {
+const VARIANT_CLASSES = {
+  primary: "fill-blue-600",
+  secondary: "fill-blue-200",
+};
+
+export function Spinner({
+  variant = "primary",
+}: {
+  variant?: "primary" | "secondary";
+}) {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="mr-2 w-4 h-4 text-white animate-spin fill-blue-200"
+        className={`mr-2 w-4 h-4 text-white animate-spin ${VARIANT_CLASSES[variant]}`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

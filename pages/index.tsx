@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import {
   DefaultMeta,
@@ -41,14 +42,21 @@ const Home: NextPage = () => {
 
       <div className="h-full">
         <main className="flex align-center justify-center flex-col h-full">
-          <section>
-            <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-10 text-center">
-                Interact with smart contracts on Ethereum.
-              </h1>
-              <div className="sm:mx-auto sm:w-full sm:max-w-lg">
-                <LoadContractForm onSubmit={onSubmit} />
-              </div>
+          <section className="-mt-10">
+            <div className="text-center mb-8">
+              <Image
+                src="/etherfunk-logo-192x192.png"
+                width={70}
+                height={70}
+                alt="Etherfunk logo"
+                className="rounded"
+              />
+            </div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-10 text-center">
+              Interact with smart contracts on Ethereum.
+            </h1>
+            <div className="sm:mx-auto sm:w-full sm:max-w-lg">
+              <LoadContractForm onSubmit={onSubmit} />
             </div>
           </section>
         </main>
