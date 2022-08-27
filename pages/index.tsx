@@ -45,7 +45,7 @@ const Home: NextPage = () => {
           <section className="-mt-10">
             <div className="text-center mb-8">
               <Image
-                src="/etherfunk-logo-192x192.png"
+                src="/etherfunk-logo-70x70.png"
                 width={70}
                 height={70}
                 alt="Etherfunk logo"
