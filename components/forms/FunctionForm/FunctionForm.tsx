@@ -129,7 +129,10 @@ export function FunctionForm({
                   >
                     {argument.name || "Unnamed input"}
                   </label>
-                  <span className="text-sm text-slate-500" id="email-optional">
+                  <span
+                    className="text-sm text-slate-500"
+                    id={`${idx}-${argument.name}-type`}
+                  >
                     {argument.type}
                   </span>
                 </div>
@@ -138,7 +141,7 @@ export function FunctionForm({
                     type="text"
                     name={`${idx}-${argument.name}`}
                     id={`${idx}-${argument.name}`}
-                    aria-describedby="email-optional"
+                    aria-describedby={`${idx}-${argument.name}-type`}
                     onChange={(e) => {
                       onFieldChange(idx, e.target.value);
                     }}
@@ -160,7 +163,7 @@ export function FunctionForm({
             >
               Ether value
             </label>
-            <span className="text-sm text-slate-500" id="payable-value">
+            <span className="text-sm text-slate-500" id="payable-value-type">
               ETH
             </span>
           </div>
@@ -169,7 +172,7 @@ export function FunctionForm({
               type="text"
               name="payable-value"
               id="payable-value"
-              aria-describedby="payable-value"
+              aria-describedby="payable-value-type"
               onChange={(e) => {
                 onPayableValueChange(e.target.value);
               }}

@@ -60,9 +60,9 @@ export function Alert({
           />
         </div>
         <div className="ml-3 overflow-hidden">
-          <h3 className={`text-sm font-medium ${VARIANT_TITLE_CLASS[variant]}`}>
+          <span className={`text-sm font-medium ${VARIANT_TITLE_CLASS[variant]}`}>
             {title}
-          </h3>
+          </span>
           <div className={`mt-2 text-sm ${VARIANT_BODY_CLASS[variant]}`}>
             <p>{body}</p>
           </div>

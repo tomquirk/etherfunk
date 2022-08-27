@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { DefaultMeta, FathomScript, Favicon } from "../../common/DefaultHead";
 import { ContractContextProvider } from "../../../contexts/ContractContext";
+import { Footer } from "./Footer";
 
 const DESCRIPTION_SUFFIX =
   "Interact with smart contracts on Ethereum with Etherfunk.";
@@ -62,9 +63,12 @@ export function ContractLayout({
             setSidebarOpen={setSidebarOpen}
           />
           <DesktopSidebar />
-          <div className="md:pl-80 flex flex-col flex-1">
-            <Header setSidebarOpen={setSidebarOpen} />
-            <Content>{children}</Content>
+          <div className="md:pl-80 flex flex-col">
+            <div className="flex-1">
+              <Header setSidebarOpen={setSidebarOpen} />
+              <Content>{children}</Content>
+            </div>
+            {/* <Footer /> */}
           </div>
         </div>
       </ContractContextProvider>

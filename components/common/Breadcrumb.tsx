@@ -8,8 +8,8 @@ export default function Breadcrumbs() {
     useContext(ContractContext);
 
   return (
-    <nav className="flex" aria-label="Breadcrumb">
-      <ol role="list" className="flex items-center space-x-4">
+    <nav className="hidden lg:flex" aria-label="Breadcrumb">
+      <ol role="list" className="flex items-center space-x-4 flex-wrap gap-y-1">
         <li>
           <div>
             <Link href="/">

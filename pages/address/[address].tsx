@@ -244,7 +244,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
               <Alert
                 variant="warning"
                 title="You're about to pay a smart contract."
-                body="This function is payable. Executing it will transfer funds from
+                body="This function sends funds from
 your wallet to the contract. Etherfunk may
 have bugs. Verify the
 transaction data before submitting the

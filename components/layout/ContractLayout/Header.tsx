@@ -40,15 +40,15 @@ export function Header({
           <label htmlFor="search-field" className="sr-only">
             Load contract address
           </label>
-          <div className="relative w-full text-slate-400 focus-within:text-slate-600 ml-4">
-            <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
+          <div className="relative w-full text-slate-400 focus-within:text-slate-600 lg:ml-4">
+            <div className="absolute inset-y-0 left-0 hidden lg:flex items-center pointer-events-none ">
               <SearchIcon className="h-5 w-5" aria-hidden="true" />
             </div>
 
             <div className="flex h-full items-center">
               <input
                 id="search-field"
-                className="block w-full h-full pl-8 pr-3 py-2 border-transparent text-slate-900 placeholder-slate-500 focus:outline-none focus:placeholder-slate-400 focus:ring-0 focus:border-transparent sm:text-sm"
+                className="block w-full h-full lg:pl-8 pr-3 py-2 border-transparent text-slate-900 placeholder-slate-500 focus:outline-none focus:placeholder-slate-400 focus:ring-0 focus:border-transparent sm:text-sm"
                 placeholder="Load contract address"
                 type="search"
                 name="search"
