@@ -1,5 +1,4 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import {
   ArrowCircleLeftIcon,
@@ -9,31 +8,20 @@ import {
 } from "@heroicons/react/outline";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
-import { useContext, useEffect, useState } from "react";
-
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { getAbi, getSourceCode } from "../../lib/etherscan/api";
 import { readProvider } from "../../constants/network";
 import { ResultCard } from "../../components/ResultCard";
-import Breadcrumbs from "../../components/common/Breadcrumb";
-import Nav from "../../components/layout/Nav";
 import { EtherscanLogo } from "../../components/common/icons/EtherscanLogo";
-import {
-  DefaultMeta,
-  FathomScript,
-  Favicon,
-} from "../../components/common/DefaultHead";
 import { NetworkContext } from "../../contexts/NetworkContext";
 import {
   FunctionForm,
   FunctionFormValues,
 } from "../../components/forms/FunctionForm/FunctionForm";
-import { Header } from "../../components/layout/Header";
 import { AutofillButton } from "../../components/AutofillButton";
-import {
-  ContractContext,
-  ContractContextProvider,
-} from "../../contexts/ContractContext";
+import { ContractContext } from "../../contexts/ContractContext";
 import { Alert } from "../../components/common/Alert";
+import { ContractLayout } from "../../components/layout/ContractLayout/ContractLayout";
 
 /**
  * Get functions from an ABI
@@ -107,13 +95,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 function AddressPage({ serverSideError }: { serverSideError: string }) {
   const { signingProvider } = useContext(NetworkContext);
-  const {
-    currentFunction,
-    contractAddress,
-    abi,
-    functions,
-    metadata: contractMetadata,
-  } = useContext(ContractContext);
+  const { currentFunction, contractAddress, abi } = useContext(ContractContext);
 
   const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -194,176 +176,125 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
     }
   };
 
-  return (
-    <div className="bg-slate-100" style={{ minHeight: "calc(100vh - 80px)" }}>
-      <Header />
+  const FormColumn = () => {
+    return (
+      currentFunction && (
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
+            {currentFunction.name}
+          </h1>
 
-      <div className="mt-20">
-        {serverSideError ? (
-          <span>{serverSideError}</span>
+          <div className="flex items-center mb-8">
+            <span className="uppercase mr-4 text-xs text-slate-500 tracking-wide flex items-center">
+              {currentFunction.stateMutability === "view" ? (
+                <BookOpenIcon className="h-3 w-3" />
+              ) : currentFunction.stateMutability === "payable" ? (
+                <CurrencyDollarIcon className="h-3 w-3" />
+              ) : (
+                <PencilIcon className="h-3 w-3" />
+              )}{" "}
+              <span className="ml-1">{currentFunction.stateMutability}</span>
+            </span>
+            <a
+              className="text-xs font-normal text-blue-600 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
+              href={`https://etherscan.io/address/${contractAddress}#readContract`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <EtherscanLogo />
+              <span className="ml-1">Etherscan</span>
+            </a>
+          </div>
+
+          <div className="text-sm font-normal text-slate-500">
+            {currentFunction.inputs.length === 0 &&
+            currentFunction.stateMutability !== "payable" ? (
+              <p>This function has no inputs.</p>
+            ) : (
+              <p className="mb-5">
+                Complete the form and call this function.
+                {currentFunction.stateMutability !== "view" && (
+                  <AutofillButton
+                    onChange={(args) => setFunctionArguments(args)}
+                  />
+                )}
+              </p>
+            )}
+          </div>
+        </div>
+      )
+    );
+  };
+
+  const ResultsColumn = () => (
+    <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
+      <div>
+        {!currentFunction ? (
+          <div className="mt-10">
+            <ArrowCircleLeftIcon className="h-10 w-10 text-slate-400" />
+            <h1 className="font-semibold text-xl">
+              Select a function to execute.
+            </h1>
+          </div>
         ) : (
           <>
-            {functions && <Nav functions={functions} />}
-
-            <main
-              className="md:pl-96 flex flex-col flex-1 h-full"
-              style={{ maxHeight: "calc(100% - 80px)" }}
-            >
-              <div className="px-10 py-4">
-                <Breadcrumbs
-                  address={contractAddress}
-                  contractName={contractMetadata?.name}
-                  fn={currentFunction?.name}
-                />
-
-                {currentFunction && (
-                  <div className="mt-5 flex justify-between">
-                    <div>
-                      <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
-                        {currentFunction.name}
-                      </h1>
-
-                      <div className="flex items-center mb-8">
-                        <span className="uppercase mr-4 text-xs text-slate-500 tracking-wide flex items-center">
-                          {currentFunction.stateMutability === "view" ? (
-                            <BookOpenIcon className="h-3 w-3" />
-                          ) : currentFunction.stateMutability === "payable" ? (
-                            <CurrencyDollarIcon className="h-3 w-3" />
-                          ) : (
-                            <PencilIcon className="h-3 w-3" />
-                          )}{" "}
-                          <span className="ml-1">
-                            {currentFunction.stateMutability}
-                          </span>
-                        </span>
-                        <a
-                          className="text-xs font-normal text-blue-600 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
-                          href={`https://etherscan.io/address/${contractAddress}#readContract`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <EtherscanLogo />
-                          <span className="ml-1">Etherscan</span>
-                        </a>
-                      </div>
-
-                      <div className="text-sm font-normal text-slate-500">
-                        {currentFunction.inputs.length === 0 &&
-                        currentFunction.stateMutability !== "payable" ? (
-                          <p>This function has no inputs.</p>
-                        ) : (
-                          <p className="mb-5">
-                            Complete the form and call this function.
-                            {currentFunction.stateMutability !== "view" && (
-                              <AutofillButton
-                                onChange={(args) => setFunctionArguments(args)}
-                              />
-                            )}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
-                  <div>
-                    {!currentFunction ? (
-                      <div className="mt-10">
-                        <ArrowCircleLeftIcon className="h-10 w-10 text-slate-400" />
-                        <p className="font-bold font-xl">
-                          Select a function to execute.
-                        </p>
-                      </div>
-                    ) : (
-                      <>
-                        {" "}
-                        {currentFunction.stateMutability === "payable" && (
-                          <Alert
-                            variant="warning"
-                            title="You're about to pay a smart contract."
-                            body="This function is payable. Executing it will transfer funds from
-      your wallet to the contract. Etherfunk may
-      have bugs. Verify the
-      transaction data before submitting the
-      transaction"
-                            className="mb-5"
-                          />
-                        )}
-                        <FunctionForm
-                          errorMessage={errorMessage}
-                          loading={loading}
-                          values={functionArguments}
-                          payableValue={payableValue}
-                          onSubmit={onSubmit}
-                          onChange={(newArgs) => setFunctionArguments(newArgs)}
-                          onPayableValueChange={(newPayableValue) =>
-                            setPayableValue(newPayableValue)
-                          }
-                        />
-                      </>
-                    )}
-                  </div>
-
-                  {result !== undefined && (
-                    <div>
-                      <h3 className="text-lg font-medium text-slate-900 mb-2">
-                        Result
-                      </h3>
-
-                      <ResultCard result={result} />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </main>
+            {currentFunction.stateMutability === "payable" && (
+              <Alert
+                variant="warning"
+                title="You're about to pay a smart contract."
+                body="This function is payable. Executing it will transfer funds from
+your wallet to the contract. Etherfunk may
+have bugs. Verify the
+transaction data before submitting the
+transaction"
+                className="mb-5"
+              />
+            )}
+            <FunctionForm
+              errorMessage={errorMessage}
+              loading={loading}
+              values={functionArguments}
+              payableValue={payableValue}
+              onSubmit={onSubmit}
+              onChange={(newArgs) => setFunctionArguments(newArgs)}
+              onPayableValueChange={(newPayableValue) =>
+                setPayableValue(newPayableValue)
+              }
+            />
           </>
         )}
       </div>
+      {result !== undefined && (
+        <div>
+          <h3 className="text-lg font-medium text-slate-900 mb-2">Result</h3>
+
+          <ResultCard result={result} />
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <div>
+      {serverSideError ?? (
+        <>
+          <FormColumn />
+          <ResultsColumn />
+        </>
+      )}
     </div>
   );
 }
 
-const DESCRIPTION_SUFFIX =
-  "Interact with smart contracts on Ethereum with Etherfunk.";
-
 export default function AddressPageRender({
-  functions,
-  abi,
-  contractMetadata,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const router = useRouter();
-  const { fn, address } = router.query;
-
-  const title = fn
-    ? `${fn} | ${contractMetadata.name} ${address}`
-    : `${contractMetadata.name} ${address}`;
-
-  const description = fn
-    ? `Call function ${fn} on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`
-    : `Call any function on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`;
-
-  return (
-    <>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta name="og:description" content={description} />
-
-        <Favicon />
-        <DefaultMeta />
-        <FathomScript />
-      </Head>
-
-      <ContractContextProvider
-        functions={functions}
-        abi={abi}
-        metadata={contractMetadata}
-      >
-        <AddressPage serverSideError={error} />
-      </ContractContextProvider>
-    </>
-  );
+  return <AddressPage serverSideError={error} />;
 }
+
+AddressPageRender.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: any // TODO fix
+) {
+  return <ContractLayout {...pageProps}>{page}</ContractLayout>;
+};

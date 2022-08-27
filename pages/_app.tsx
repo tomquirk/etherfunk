@@ -1,18 +1,29 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { NetworkProvider } from "../contexts/NetworkContext";
+import { NextPage } from "next";
 const ReactTooltip = dynamic(() => import("react-tooltip"), {
   ssr: false,
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement, pageProps: any) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout || ((page) => page);
+
+  const PageWithLayout = getLayout(<Component {...pageProps} />, pageProps);
+
   return (
     <NetworkProvider>
-      <React.StrictMode>
-        <Component {...pageProps} />
-      </React.StrictMode>
+      <React.StrictMode>{PageWithLayout}</React.StrictMode>
       <ReactTooltip effect="solid" className="!px-3 !py-1 !text-xs" />
     </NetworkProvider>
   );

@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="h-screen bg-slate-50 px-4">
+    <div className="h-screen px-4">
       <Head>
         <title>Etherfunk</title>
         <meta

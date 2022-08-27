@@ -17,8 +17,10 @@ const NavItem = ({
   return (
     <Link href={href} shallow>
       <a
-        className={`"mb-1 px-2 py-1 text-slate-900 text-sm hover:bg-slate-100 hover:underline rounded-md mb-1 " ${
-          selected ? "bg-slate-200" : ""
+        className={`"mb-1 px-2 py-1  text-sm  hover:underline rounded-md mb-1 " ${
+          selected
+            ? "bg-slate-200 hover:bg-slate-300 text-slate-900"
+            : "hover:bg-slate-100 text-slate-700"
         }`}
       >
         {children}
@@ -27,9 +29,10 @@ const NavItem = ({
   );
 };
 
-export default function Nav({ functions }: { functions: any[] }) {
+export default function Nav() {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const { contractAddress, currentFunction } = useContext(ContractContext);
+  const { contractAddress, currentFunction, functions } =
+    useContext(ContractContext);
 
   const filteredFunctions =
     functions?.filter((f) =>
@@ -47,10 +50,7 @@ export default function Nav({ functions }: { functions: any[] }) {
   );
 
   return (
-    <div
-      className="fixed w-96 flex-1 flex flex-col min-h-0 bg-white px-6 pt-8 h-full overflow-scroll"
-      style={{ maxHeight: "calc(100% - 80px)" }}
-    >
+    <>
       <div className="mb-5 px-2">
         <label htmlFor="search" className="sr-only">
           Search
@@ -69,7 +69,7 @@ export default function Nav({ functions }: { functions: any[] }) {
 
       <div>
         <div className="mb-5">
-          <div className="text-slate-500 px-2 uppercase tracking-wide text-xs font-bold mb-2">
+          <div className="text-slate-900 px-2 uppercase tracking-wide text-xs font-bold mb-2">
             Read
           </div>
           <div className="flex flex-col">
@@ -93,7 +93,7 @@ export default function Nav({ functions }: { functions: any[] }) {
         </div>
 
         <div className="mb-2">
-          <div className="text-slate-500 uppercase tracking-wide text-xs px-2 font-bold mb-2">
+          <div className="text-slate-900 uppercase tracking-wide text-xs px-2 font-bold mb-2">
             Write
           </div>
 
@@ -131,6 +131,6 @@ export default function Nav({ functions }: { functions: any[] }) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
