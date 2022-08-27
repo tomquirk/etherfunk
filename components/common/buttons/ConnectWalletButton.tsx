@@ -27,6 +27,11 @@ init({
       enabled: false,
     },
   },
+  appMetadata: {
+    icon: '/etherfunk-logo-70x70.png',
+    name: 'Etherfunk',
+    description: 'Your Ethereum control panel.',
+  },
 });
 
 export function ConnectWalletButton({
