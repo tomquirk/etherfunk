@@ -5,6 +5,7 @@ import { readProvider } from "../../../constants/network";
 import { ContractContext } from "../../../contexts/ContractContext";
 import { NetworkContext } from "../../../contexts/NetworkContext";
 import { simulateTransaction } from "../../../lib/tenderly/api";
+import { formatVariableName } from "../../../utils/string";
 import { Alert } from "../../common/Alert";
 import { Button } from "../../common/buttons/Button";
 import { TransactionButton } from "../../common/buttons/TransactionButton";
@@ -126,8 +127,9 @@ export function FunctionForm({
                   <label
                     htmlFor={`${idx}-${argument.name}`}
                     className="block text-sm font-medium text-slate-700"
+                    data-tip={argument.name}
                   >
-                    {argument.name || "Unnamed input"}
+                    {formatVariableName(argument.name) || "Unnamed input"}
                   </label>
                   <span
                     className="text-sm text-slate-500"
