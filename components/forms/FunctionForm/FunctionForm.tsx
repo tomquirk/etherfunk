@@ -90,17 +90,18 @@ export function FunctionForm({
       {currentFunction.inputs.length > 0 && (
         <div className="mb-3">
           {currentFunction.inputs.map((argument: any, idx: number) => {
+            const key = `${idx}-${argument.name}`;
+            const name = `${idx}-${argument.name}-input`;
+            const value = values[idx];
+
             if (argument.type === "bool") {
-              const checked = values[idx] === true || values[idx] === "true";
+              const checked = value === true || value === "true";
               return (
-                <div
-                  key={`${idx}-${argument.name}`}
-                  className="relative flex items-start mb-5"
-                >
+                <div key={key} className="relative flex items-start mb-5">
                   <div className="flex items-center h-5">
                     <input
-                      id={`${idx}-${argument.name}`}
-                      name={`${idx}-${argument.name}`}
+                      id={name}
+                      name={name}
                       type="checkbox"
                       className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-slate-300 rounded"
                       onChange={(e) => {
@@ -110,10 +111,7 @@ export function FunctionForm({
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label
-                      htmlFor={`${idx}-${argument.name}`}
-                      className="font-medium text-gray-700"
-                    >
+                    <label htmlFor={name} className="font-medium text-gray-700">
                       {argument.name}
                     </label>
                   </div>
@@ -122,10 +120,10 @@ export function FunctionForm({
             }
 
             return (
-              <div key={`${idx}-${argument.name}`} className="mb-5">
+              <div key={key} className="mb-5">
                 <div className="flex justify-between">
                   <label
-                    htmlFor={`${idx}-${argument.name}`}
+                    htmlFor={name}
                     className="block text-sm font-medium text-slate-700"
                     data-tip={argument.name}
                   >
@@ -141,13 +139,13 @@ export function FunctionForm({
                 <div className="mt-1">
                   <Input
                     type="text"
-                    name={`${idx}-${argument.name}`}
-                    id={`${idx}-${argument.name}`}
+                    name={name}
+                    id={name}
                     aria-describedby={`${idx}-${argument.name}-type`}
                     onChange={(e) => {
                       onFieldChange(idx, e.target.value);
                     }}
-                    value={(values[idx] as string) ?? ""}
+                    value={(value as string) ?? ""}
                   />
                 </div>
               </div>
