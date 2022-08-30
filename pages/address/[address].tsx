@@ -178,89 +178,6 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
     }
   };
 
-  const FormColumn = () => {
-    if (!currentFunction) {
-      return (
-        <div className="mt-10">
-          <ArrowCircleLeftIcon className="h-10 w-10 text-slate-400" />
-          <h1 className="font-semibold text-xl">
-            Select a function to execute.
-          </h1>
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
-          {currentFunction.name}
-        </h1>
-
-        <div className="flex items-center mb-8">
-          <span className="uppercase mr-4 text-sm text-slate-500 tracking-wide flex items-center">
-            {currentFunction.stateMutability === "view" ? (
-              <BookOpenIcon className="h-4 w-4" />
-            ) : currentFunction.stateMutability === "payable" ? (
-              <CurrencyDollarIcon className="h-4 w-4" />
-            ) : (
-              <PencilIcon className="h-4 w-4" />
-            )}{" "}
-            <span className="ml-1">{currentFunction.stateMutability}</span>
-          </span>
-          <a
-            className="text-sm font-normal text-slate-500 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
-            href={`https://etherscan.io/address/${contractAddress}#readContract`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <EtherscanLogo />
-            <span className="ml-1">Etherscan</span>
-          </a>
-        </div>
-
-        <div className="text-sm font-normal text-slate-500">
-          {currentFunction.inputs.length === 0 &&
-          currentFunction.stateMutability !== "payable" ? (
-            <p>This function has no inputs.</p>
-          ) : (
-            <p className="mb-5">
-              Complete the form and call this function.
-              {currentFunction.stateMutability !== "view" && (
-                <AutofillButton
-                  onChange={(args) => setFunctionArguments(args)}
-                />
-              )}
-            </p>
-          )}
-        </div>
-
-        {currentFunction.stateMutability === "payable" && (
-          <Alert
-            variant="warning"
-            title="You're about to pay a smart contract."
-            body="This function sends funds from
-your wallet to the contract. Etherfunk may
-have bugs. Verify the
-transaction data before submitting the
-transaction"
-            className="mb-5"
-          />
-        )}
-        <FunctionForm
-          errorMessage={errorMessage}
-          loading={loading}
-          values={functionArguments}
-          payableValue={payableValue}
-          onSubmit={onSubmit}
-          onChange={(newArgs) => setFunctionArguments(newArgs)}
-          onPayableValueChange={(newPayableValue) =>
-            setPayableValue(newPayableValue)
-          }
-        />
-      </div>
-    );
-  };
-
   const ResultsColumn = () =>
     result !== undefined ? (
       <div>
@@ -274,7 +191,84 @@ transaction"
     <div>
       {serverSideError ?? (
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
-          <FormColumn />
+          {!currentFunction ? (
+            <div className="mt-10">
+              <ArrowCircleLeftIcon className="h-10 w-10 text-slate-400" />
+              <h1 className="font-semibold text-xl">
+                Select a function to execute.
+              </h1>
+            </div>
+          ) : (
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
+                {currentFunction.name}
+              </h1>
+
+              <div className="flex items-center mb-8">
+                <span className="uppercase mr-4 text-sm text-slate-500 tracking-wide flex items-center">
+                  {currentFunction.stateMutability === "view" ? (
+                    <BookOpenIcon className="h-4 w-4" />
+                  ) : currentFunction.stateMutability === "payable" ? (
+                    <CurrencyDollarIcon className="h-4 w-4" />
+                  ) : (
+                    <PencilIcon className="h-4 w-4" />
+                  )}{" "}
+                  <span className="ml-1">
+                    {currentFunction.stateMutability}
+                  </span>
+                </span>
+                <a
+                  className="text-sm font-normal text-slate-500 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
+                  href={`https://etherscan.io/address/${contractAddress}#readContract`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <EtherscanLogo />
+                  <span className="ml-1">Etherscan</span>
+                </a>
+              </div>
+
+              <div className="text-sm font-normal text-slate-500">
+                {currentFunction.inputs.length === 0 &&
+                currentFunction.stateMutability !== "payable" ? (
+                  <p>This function has no inputs.</p>
+                ) : (
+                  <p className="mb-5">
+                    Complete the form and call this function.
+                    {currentFunction.stateMutability !== "view" && (
+                      <AutofillButton
+                        onChange={(args) => setFunctionArguments(args)}
+                      />
+                    )}
+                  </p>
+                )}
+              </div>
+
+              {currentFunction.stateMutability === "payable" && (
+                <Alert
+                  variant="warning"
+                  title="You're about to pay a smart contract."
+                  body="This function sends funds from
+your wallet to the contract. Etherfunk may
+have bugs. Verify the
+transaction data before submitting the
+transaction"
+                  className="mb-5"
+                />
+              )}
+              <FunctionForm
+                errorMessage={errorMessage}
+                loading={loading}
+                values={functionArguments}
+                payableValue={payableValue}
+                onSubmit={onSubmit}
+                onChange={(newArgs) => setFunctionArguments(newArgs)}
+                onPayableValueChange={(newPayableValue) =>
+                  setPayableValue(newPayableValue)
+                }
+              />
+            </div>
+          )}
           <ResultsColumn />
         </div>
       )}
