@@ -8,6 +8,7 @@ import Head from "next/head";
 import { DefaultMeta, FathomScript, Favicon } from "../../common/DefaultHead";
 import { ContractContextProvider } from "../../../contexts/ContractContext";
 import { Footer } from "./Footer";
+import Script from "next/script";
 
 const DESCRIPTION_SUFFIX =
   "Interact with smart contracts on Ethereum with Etherfunk.";
@@ -51,6 +52,12 @@ export function ContractLayout({
         <DefaultMeta />
         <FathomScript />
       </Head>
+
+      <Script
+        src="https://tools.juicebox.money/pay.js"
+        data-project-id="163"
+        data-description="Help keep etherfunk.io alive. Your donation will be used for infrastructure costs."
+      />
 
       <ContractContextProvider
         functions={functions}

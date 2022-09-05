@@ -33,6 +33,7 @@ export function FooterLinks() {
       >
         GitHub
       </a>
+      <div id="juice-pay-button"></div>
     </div>
   );
 }
