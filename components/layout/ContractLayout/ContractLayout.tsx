@@ -54,7 +54,7 @@ export function ContractLayout({
       </Head>
 
       <Script
-        src="https://tools.juicebox.money/pay.js"
+        src="https://tools.juicebox.money/public/dist/pay.min.js"
         data-project-id="163"
         data-description="Help keep etherfunk.io alive. Your donation will be used for infrastructure costs."
       />

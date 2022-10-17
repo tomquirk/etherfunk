@@ -1,4 +1,5 @@
 import { Contract } from "ethers";
+import { parseEther } from "ethers/lib/utils";
 import { useRouter } from "next/router";
 import { FormEventHandler, useContext, useEffect, useState } from "react";
 import { readProvider } from "../../../constants/network";
@@ -261,11 +262,15 @@ export function FunctionForm({
                         functionName: currentFunction.name,
                         args: values,
                         userAddress: connectedWalletAddress,
+                        value: parseEther(payableValue).toString(),
                       });
 
                       setSimulationResult(res);
                     } catch (e) {
-                      setSimulationError(e);
+                      setSimulationError(
+                        e ??
+                          "A transaction was simulated with this data, and failed. Fix the data and try again."
+                      );
                     } finally {
                       setLoadingSimulation(false);
                     }
