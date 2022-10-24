@@ -22,6 +22,10 @@ import { AutofillButton } from "../../components/AutofillButton";
 import { ContractContext } from "../../contexts/ContractContext";
 import { Alert } from "../../components/common/Alert";
 import { ContractLayout } from "../../components/layout/ContractLayout/ContractLayout";
+import { withCoalescedInvoke } from "next/dist/lib/coalesced-function";
+import { EtherscanLink } from "../../components/EtherscanLink";
+import { Button } from "../../components/common/buttons/Button";
+import querystring from "query-string";
 
 /**
  * Get functions from an ABI
@@ -95,17 +99,57 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
+const ResultsColumn = ({ result }: { result: unknown }) => {
+  const router = useRouter();
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    setCopied(false);
+  }, [result]);
+
+  if (result === undefined) return null;
+
+  return (
+    <div>
+      <h3 className="text-lg font-medium text-slate-900 mb-2">Result</h3>
+
+      <ResultCard result={result} />
+      <Button
+        onClick={() => {
+          const query = { ...router.query, [AUTORUN_QUERY_PARAM]: "1" };
+          router.replace({ pathname: router.pathname, query }, undefined, {
+            shallow: true,
+          });
+
+          console.log(router);
+
+          navigator.clipboard.writeText(window.location.href);
+          setCopied(true);
+        }}
+        type="button"
+        variant="secondary"
+        className="mt-3"
+        data-tip={copied ? "Copied!" : "Copy link to clipboard"}
+      >
+        {copied ? "Copied link!" : "Share result"}
+      </Button>
+    </div>
+  );
+};
+
+const AUTORUN_QUERY_PARAM = "run";
+
 function AddressPage({ serverSideError }: { serverSideError: string }) {
   const { signingProvider } = useContext(NetworkContext);
   const { currentFunction, contractAddress, abi } = useContext(ContractContext);
-
+  console.log("address::function::", currentFunction);
   const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [functionArguments, setFunctionArguments] =
     useState<FunctionFormValues>([]);
   const [payableValue, setPayableValue] = useState<string>("");
-  const [result, setResult] = useState<any>();
+  const [result, setResult] = useState<unknown>();
 
   const router = useRouter();
 
@@ -123,7 +167,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
   }, []);
 
   useEffect(() => {
-    const { run } = router.query;
+    const run = router.query[AUTORUN_QUERY_PARAM];
 
     if (!initialLoadDone) return;
     if (run && currentFunction.stateMutability === "view") {
@@ -155,7 +199,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
       );
 
       console.log(
-        `Calling "${currentFunction.name}" with args: ${functionArguments}`
+        `page::address::calling "${currentFunction.name}" with args: ${functionArguments}`
       );
       const res = payableValue
         ? await contract[currentFunction.name](...functionArguments, {
@@ -163,7 +207,7 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
           })
         : await contract[currentFunction.name](...functionArguments);
 
-      console.log("RESULT::", res);
+      console.log("page::address::result::", res);
 
       setResult(res);
     } catch (e) {
@@ -177,15 +221,6 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
       setLoading(false);
     }
   };
-
-  const ResultsColumn = () =>
-    result !== undefined ? (
-      <div>
-        <h3 className="text-lg font-medium text-slate-900 mb-2">Result</h3>
-
-        <ResultCard result={result} />
-      </div>
-    ) : null;
 
   return (
     <div>
@@ -217,15 +252,17 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                     {currentFunction.stateMutability}
                   </span>
                 </span>
-                <a
-                  className="text-sm font-normal text-slate-500 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
-                  href={`https://etherscan.io/address/${contractAddress}#readContract`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <EtherscanLogo />
-                  <span className="ml-1">Etherscan</span>
-                </a>
+                {contractAddress && (
+                  <EtherscanLink
+                    className="text-sm font-normal text-slate-500 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
+                    linkSuffix="#readContract"
+                    address={contractAddress}
+                    type="address"
+                  >
+                    <EtherscanLogo />
+                    <span className="ml-1">Etherscan</span>
+                  </EtherscanLink>
+                )}
               </div>
 
               <div className="text-sm font-normal text-slate-500">
@@ -269,7 +306,7 @@ transaction"
               />
             </div>
           )}
-          <ResultsColumn />
+          <ResultsColumn result={result} />
         </div>
       )}
     </div>

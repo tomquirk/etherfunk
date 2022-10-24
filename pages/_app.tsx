@@ -4,9 +4,7 @@ import dynamic from "next/dynamic";
 import React, { ReactElement, ReactNode } from "react";
 import { NetworkProvider } from "../contexts/NetworkContext";
 import { NextPage } from "next";
-const ReactTooltip = dynamic(() => import("react-tooltip"), {
-  ssr: false,
-});
+import ReactTooltip from "react-tooltip";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement, pageProps: any) => ReactNode;
@@ -16,7 +14,7 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
 
   const PageWithLayout = getLayout(<Component {...pageProps} />, pageProps);
@@ -28,5 +26,3 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     </NetworkProvider>
   );
 }
-
-export default MyApp;

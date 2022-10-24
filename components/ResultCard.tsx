@@ -1,14 +1,36 @@
 import { BigNumber } from "@ethersproject/bignumber";
+import { isAddress } from "ethers/lib/utils";
+import { EtherscanLink } from "./EtherscanLink";
 
-const RenderResult = ({ result }: { result: any }) => {
+const listClasses = ["ml-2", "ml-3", "ml-4", "ml-5", "ml-6"];
+
+const RenderResult = ({
+  result,
+  depthIndex = 0,
+}: {
+  result: any;
+  depthIndex?: number;
+}) => {
   if (Array.isArray(result)) {
     return (
-      <div>
+      <div className={`ml-${depthIndex * 3}`}>
         {result.map((r, i) => (
-          <div key={i}>
-            <RenderResult result={r} />
+          <div key={i} className="mb-2">
+            <RenderResult result={r} depthIndex={depthIndex + 1} />
           </div>
         ))}
+      </div>
+    );
+  }
+
+  if (isAddress(result)) {
+    return (
+      <div>
+        <EtherscanLink
+          address={result}
+          type="address"
+          className="underline hover:text-blue-800 visited:text-purple-800"
+        />
       </div>
     );
   }
@@ -23,6 +45,19 @@ const RenderResult = ({ result }: { result: any }) => {
 
   if (BigNumber.isBigNumber(result)) {
     return <div>{result.toString()}</div>;
+  }
+
+  if (result && typeof result === "object") {
+    return (
+      <div>
+        {Object.keys(result).map((key) => (
+          <div key={key}>
+            <div>{key}</div>
+            <RenderResult result={result[key]} />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return null;
