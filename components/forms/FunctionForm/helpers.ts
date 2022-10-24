@@ -7,7 +7,7 @@ import { Interface } from "@ethersproject/abi";
 /**
  * Return array of the most common args from given sets of args
  */
-const mergeArgs = (args: Result[]): any[] => {
+const mergeArgs = (args: Result[]): unknown[] => {
   const occurences: { [k in string]: number }[] = [];
 
   args.forEach((argSet) => {
