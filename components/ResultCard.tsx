@@ -61,6 +61,7 @@ const Result = ({
     const key = `${outputChild.name}-${depthIndex}`;
 
     if (!outputChild.components) {
+      console.log(result, "result!!");
       const resultToRender = Array.isArray(result) ? result[idx] : result;
       return (
         <LabelValue key={key} label={outputChild.name} value={resultToRender} />
@@ -91,7 +92,7 @@ export function ResultCard({ result }: { result: unknown }) {
 
   return (
     <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 overflow-scroll">
-      <Result result={result} output={currentFunction.outputs} />
+      <Result result={result} output={currentFunction?.outputs} />
     </div>
   );
 }

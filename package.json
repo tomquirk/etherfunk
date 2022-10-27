@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
     "@tailwindcss/forms": "^0.5.2",
+    "@vercel/og": "^0.0.20",
     "@web3-onboard/core": "^2.6.0",
     "@web3-onboard/injected-wallets": "^2.0.15",
     "@web3-onboard/react": "^2.2.5",
