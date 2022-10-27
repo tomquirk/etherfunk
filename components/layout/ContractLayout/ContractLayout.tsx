@@ -31,9 +31,11 @@ export function ContractLayout({
     ? `${fn} | ${contractMetadata.name} ${address}`
     : `${contractMetadata.name} ${address}`;
 
+  const ogTitle = `${fn} | ${contractMetadata.name}`;
+
   const description = fn
-    ? `Call function ${fn} on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`
-    : `Call any function on contract ${contractMetadata.name} (${address}). ${DESCRIPTION_SUFFIX}`;
+    ? `Call "${fn}" on contract ${contractMetadata.name} | ${address} | | ${DESCRIPTION_SUFFIX}`
+    : `Call any function on contract ${contractMetadata.name} | ${address} | ${DESCRIPTION_SUFFIX}`;
 
   // close sidebar when page changes
   useEffect(() => {
@@ -46,13 +48,17 @@ export function ContractLayout({
         <title>{title}</title>
         <meta property="og:type" content="website" />
         <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={ogTitle} />
         <meta name="og:description" content={description} />
         <meta
           property="og:image"
-          content={`https://etherfunk.io/api/og?fn=${fn ?? ""}&contract=${contractMetadata.name}`}
+          content={`https://etherfunk.io/api/og?fn=${fn ?? ""}&contract=${
+            contractMetadata.name
+          }`}
         />
-
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
         <Favicon />
         <FathomScript />
       </Head>
