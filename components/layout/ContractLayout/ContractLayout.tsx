@@ -35,7 +35,7 @@ export function ContractLayout({
   const ogImageSrc = `https://etherfunk.io/api/og?fn=${fn ?? ""}&contract=${
     contractMetadata.name
   }`;
-  
+
   const description = fn
     ? `Call "${fn}" on contract ${contractMetadata.name} | ${address} | | ${DESCRIPTION_SUFFIX}`
     : `Call any function on contract ${contractMetadata.name} | ${address} | ${DESCRIPTION_SUFFIX}`;
@@ -53,8 +53,8 @@ export function ContractLayout({
         <meta property="og:title" content={ogTitle} />
         <meta name="og:description" content={description} />
         <meta property="twitter:title" content={ogTitle} />
-        <meta name="twitter:card" content={ogImageSrc} />
-        <meta name="twitter:image:src" content="summary_large_image" />
+        <meta name="twitter:image" content={ogImageSrc} />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:type" content="object" />
         <meta property="og:site_name" content="Etherfunk" />
         <meta property="og:image" content={ogImageSrc} />
