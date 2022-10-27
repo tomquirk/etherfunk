@@ -59,7 +59,7 @@ export function ContractLayout({
         <meta property="og:site_name" content="Etherfunk" />
         <meta property="og:image" content={ogImageSrc} />
         <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta property="og:image:height" content="600" />
         <meta
           property="og:image:alt"
           content="Interact with any smart contract on Ethereum"
