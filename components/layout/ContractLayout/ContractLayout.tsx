@@ -50,6 +50,9 @@ export function ContractLayout({
         <meta name="description" content={description} />
         <meta property="og:title" content={ogTitle} />
         <meta name="og:description" content={description} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:type" content="object" />
+        <meta property="og:site_name" content="Etherfunk" />
         <meta
           property="og:image"
           content={`https://etherfunk.io/api/og?fn=${fn ?? ""}&contract=${
@@ -58,7 +61,11 @@ export function ContractLayout({
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        
+        <meta
+          property="og:image:alt"
+          content="Interact with any smart contract on Ethereum"
+        />
+
         <Favicon />
         <FathomScript />
       </Head>
