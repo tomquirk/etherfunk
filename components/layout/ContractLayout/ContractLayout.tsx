@@ -5,7 +5,7 @@ import { Content } from "./Content";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { DefaultMeta, FathomScript, Favicon } from "../../common/DefaultHead";
+import { FathomScript, Favicon } from "../../common/DefaultHead";
 import { ContractContextProvider } from "../../../contexts/ContractContext";
 import { Footer } from "./Footer";
 import Script from "next/script";
@@ -32,7 +32,10 @@ export function ContractLayout({
     : `${contractMetadata.name} ${address}`;
 
   const ogTitle = `${fn} | ${contractMetadata.name}`;
-
+  const ogImageSrc = `https://etherfunk.io/api/og?fn=${fn ?? ""}&contract=${
+    contractMetadata.name
+  }`;
+  
   const description = fn
     ? `Call "${fn}" on contract ${contractMetadata.name} | ${address} | | ${DESCRIPTION_SUFFIX}`
     : `Call any function on contract ${contractMetadata.name} | ${address} | ${DESCRIPTION_SUFFIX}`;
@@ -46,19 +49,15 @@ export function ContractLayout({
     <>
       <Head>
         <title>{title}</title>
-        <meta property="og:type" content="website" />
         <meta name="description" content={description} />
         <meta property="og:title" content={ogTitle} />
         <meta name="og:description" content={description} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={ogTitle} />
+        <meta name="twitter:card" content={ogImageSrc} />
+        <meta name="twitter:image:src" content="summary_large_image" />
         <meta property="og:type" content="object" />
         <meta property="og:site_name" content="Etherfunk" />
-        <meta
-          property="og:image"
-          content={`https://etherfunk.io/api/og?fn=${fn ?? ""}&contract=${
-            contractMetadata.name
-          }`}
-        />
+        <meta property="og:image" content={ogImageSrc} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta
