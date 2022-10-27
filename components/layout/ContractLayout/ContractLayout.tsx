@@ -37,7 +37,7 @@ export function ContractLayout({
   }`;
 
   const description = fn
-    ? `Call "${fn}" on contract ${contractMetadata.name} | ${address} | | ${DESCRIPTION_SUFFIX}`
+    ? `Call "${fn}" on contract ${contractMetadata.name} | ${address} | ${DESCRIPTION_SUFFIX}`
     : `Call any function on contract ${contractMetadata.name} | ${address} | ${DESCRIPTION_SUFFIX}`;
 
   // close sidebar when page changes
