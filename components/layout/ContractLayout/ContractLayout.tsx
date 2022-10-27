@@ -44,16 +44,16 @@ export function ContractLayout({
     <>
       <Head>
         <title>{title}</title>
+        <meta property="og:type" content="website" />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta name="og:description" content={description} />
         <meta
           property="og:image"
-          content={`/api/og?fn=${fn ?? ""}&contract=${contractMetadata.name}`}
+          content={`https://etherfunk.io/api/og?fn=${fn ?? ""}&contract=${contractMetadata.name}`}
         />
 
         <Favicon />
-        <DefaultMeta />
         <FathomScript />
       </Head>
 

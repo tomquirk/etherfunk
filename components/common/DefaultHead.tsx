@@ -32,7 +32,7 @@ export function DefaultMeta() {
       <meta property="og:type" content="website" />
       <meta
         property="og:image"
-        content="https://etherfunk.io/android-chrome-256x256.png"
+        content="https://etherfunk.io/etherfunk-logo-256x256.png"
       />
     </>
   );
