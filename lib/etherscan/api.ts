@@ -1,5 +1,6 @@
 import axios from "axios";
 import { networkName } from "../../constants/network";
+import querystring from "query-string";
 
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 
@@ -47,5 +48,17 @@ export const listTransactions = (contractAddress: string) => {
       sort: "desc",
       apikey: ETHERSCAN_API_KEY,
     },
+  });
+};
+
+export const gasPrice = () => {
+  const query = querystring.stringify({
+    module: "gastracker",
+    action: "gasoracle",
+    apikey: ETHERSCAN_API_KEY,
+  });
+
+  return fetch(baseURL + "?" + query).then((res) => {
+    return res.json();
   });
 };

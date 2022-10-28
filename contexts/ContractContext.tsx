@@ -33,6 +33,7 @@ export function ContractContextProvider({
     () => functions?.find((f: any) => f.name === fn),
     [fn, functions]
   );
+
   return (
     <ContractContext.Provider
       value={{

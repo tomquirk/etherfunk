@@ -22,10 +22,8 @@ import { AutofillButton } from "../../components/AutofillButton";
 import { ContractContext } from "../../contexts/ContractContext";
 import { Alert } from "../../components/common/Alert";
 import { ContractLayout } from "../../components/layout/ContractLayout/ContractLayout";
-import { withCoalescedInvoke } from "next/dist/lib/coalesced-function";
 import { EtherscanLink } from "../../components/EtherscanLink";
 import { Button } from "../../components/common/buttons/Button";
-import querystring from "query-string";
 
 /**
  * Get functions from an ABI

@@ -1,5 +1,6 @@
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
+import { gasPrice } from "../../lib/etherscan/api";
 
 export const config = {
   runtime: "experimental-edge",
@@ -16,6 +17,9 @@ const fontRegular = fetch(
 export default async function handler(req: NextRequest) {
   const fontDataBold = await fontBold;
   const fontDataRegular = await fontRegular;
+
+  const gas = await gasPrice();
+  const currentGasPrice = gas.result.ProposeGasPrice;
 
   try {
     const { searchParams } = new URL(req.url);
@@ -44,14 +48,24 @@ export default async function handler(req: NextRequest) {
               justifyContent: "space-between",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <div
-                tw="text-7xl font-extrabold tracking-tight mb-5"
-                style={{ fontFamily: '"InterBold"' }}
+                tw="text-7xl tracking-tight mb-5"
+                style={{
+                  fontFamily: '"InterBold"',
+                  width: "800px",
+                  textOverflow: "ellipsis",
+                }}
               >
-                {contract ?? 'Etherfunk'}
+                {contract ?? "Etherfunk"}
               </div>
-              {fn && <div tw="text-4xl font-bold flex">{fn}</div>}
+              {fn && <div tw="text-4xl flex">{fn}</div>}
+              <div tw="flex mt-5 text-2xl">⛽️ {currentGasPrice} gwei</div>
             </div>
             <img
               src="https://etherfunk.io/etherfunk-logo-192x192.png"
@@ -61,8 +75,16 @@ export default async function handler(req: NextRequest) {
             />
           </div>
 
-          <div tw="text-2xl">
-            Interact with this smart contract on Etherfunk.io
+          <div tw="text-2xl flex">
+            Interact with this smart contract on{" "}
+            <span
+              style={{
+                fontFamily: '"InterBold"',
+                marginLeft: "8px",
+              }}
+            >
+              etherfunk.io
+            </span>
           </div>
         </div>
       ),
