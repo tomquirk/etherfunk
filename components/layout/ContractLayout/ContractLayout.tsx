@@ -70,8 +70,10 @@ export function ContractLayout({
       </Head>
 
       <Script
-        src="https://tools.juicebox.money/public/dist/pay.min.js"
+        id="juicebox"
+        src="https://tools.juicebox.money/pay.js"
         data-project-id="163"
+        data-project-version="2"
         data-description="Help keep etherfunk.io alive. Your donation will be used for infrastructure costs."
       />
 
