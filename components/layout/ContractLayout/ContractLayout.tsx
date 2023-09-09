@@ -73,7 +73,7 @@ export function ContractLayout({
         id="juicebox"
         src="https://tools.juicebox.money/pay.js"
         data-project-id="163"
-        data-version="2"
+        data-version="latest"
         data-description="Help keep etherfunk.io alive. Your donation will be used for infrastructure costs."
       />
 
