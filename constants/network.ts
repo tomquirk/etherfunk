@@ -1,8 +1,9 @@
 import { JsonRpcProvider } from "@ethersproject/providers";
 
+type NetworkName = "mainnet" | "goerli" | "optimism";
 const infuraKey = process.env.NEXT_PUBLIC_INFURA_API_KEY;
-export const networkName =
-  process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_NAME ?? "mainnet";
+export const networkName: NetworkName =
+  (process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_NAME as NetworkName) ?? "mainnet";
 
 export const rpcUrl =
   networkName === "optimism"
