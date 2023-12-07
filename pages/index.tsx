@@ -10,6 +10,9 @@ import {
 import { ExploreSection } from "../components/ExploreSection";
 import { FooterLinks } from "../components/FooterLinks";
 import { LoadContractForm } from "../components/forms/LoadContractForm";
+import { networkName, readProvider } from "../constants/network";
+
+const displayName = networkName === "mainnet" ? "Ethereum" : networkName;
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -53,7 +56,8 @@ const Home: NextPage = () => {
               />
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-10 text-center">
-              Interact with smart contracts on Ethereum.
+              Interact with smart contracts on{" "}
+              <span className="capitalize">{displayName}</span>.
             </h1>
             <div className="sm:mx-auto sm:w-full sm:max-w-lg">
               <LoadContractForm onSubmit={onSubmit} />

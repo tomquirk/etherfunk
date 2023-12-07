@@ -32,7 +32,7 @@ export function LoadContractForm({
         size="large"
       />
       <Button loading={loading} size="large" className="w-full font-medium">
-        Load it up
+        Load contract
       </Button>
     </form>
   );

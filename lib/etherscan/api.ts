@@ -7,6 +7,8 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 const baseURL =
   networkName === "mainnet"
     ? "https://api.etherscan.io/api"
+    : networkName === "optimism"
+    ? "https://api-optimistic.etherscan.io/api"
     : `https://api-${networkName}.etherscan.io/api`;
 
 const axiosInstance = axios.create({
