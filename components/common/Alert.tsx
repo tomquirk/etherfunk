@@ -41,7 +41,7 @@ export function Alert({
   className,
 }: {
   variant: "danger" | "warning" | "success";
-  title?: string;
+  title?: string | JSX.Element;
   body?: string | JSX.Element;
   className?: string;
 }) {

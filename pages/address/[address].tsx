@@ -2,9 +2,11 @@ import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import {
   ArrowCircleLeftIcon,
+  ArrowRightIcon,
   BookOpenIcon,
   CurrencyDollarIcon,
   PencilIcon,
+  SparklesIcon,
 } from "@heroicons/react/outline";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
@@ -233,36 +235,52 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
             </div>
           ) : (
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
-                {currentFunction.name}
-              </h1>
+              <div className="mb-8">
+                <h1 className="text-2xl mt-1 font-bold tracking-tight text-slate-900 mb-2">
+                  {currentFunction.name}
+                </h1>
 
-              <div className="flex items-center mb-8">
-                <span className="uppercase mr-4 text-sm text-slate-500 tracking-wide flex items-center">
-                  {currentFunction.stateMutability === "view" ? (
-                    <BookOpenIcon className="h-4 w-4" />
-                  ) : currentFunction.stateMutability === "payable" ? (
-                    <CurrencyDollarIcon className="h-4 w-4" />
-                  ) : (
-                    <PencilIcon className="h-4 w-4" />
-                  )}{" "}
-                  <span className="ml-1">
-                    {currentFunction.stateMutability}
+                <div className="flex items-center mb-2">
+                  <span className="uppercase mr-4 text-sm text-slate-500 tracking-wide flex items-center">
+                    {currentFunction.stateMutability === "view" ? (
+                      <BookOpenIcon className="h-4 w-4" />
+                    ) : currentFunction.stateMutability === "payable" ? (
+                      <CurrencyDollarIcon className="h-4 w-4" />
+                    ) : (
+                      <PencilIcon className="h-4 w-4" />
+                    )}{" "}
+                    <span className="ml-1">
+                      {currentFunction.stateMutability}
+                    </span>
                   </span>
-                </span>
-                {contractAddress && (
-                  <EtherscanLink
-                    className="text-sm font-normal text-slate-500 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
-                    linkSuffix="#readContract"
-                    address={contractAddress}
-                    type="address"
-                  >
-                    <EtherscanLogo />
-                    <span className="ml-1">Etherscan</span>
-                  </EtherscanLink>
-                )}
-              </div>
+                  {contractAddress && (
+                    <EtherscanLink
+                      className="text-sm font-normal text-slate-500 flex items-center hover:underline hover:text-blue-800 visited:text-purple-800"
+                      linkSuffix="#readContract"
+                      address={contractAddress}
+                      type="address"
+                    >
+                      <EtherscanLogo />
+                      <span className="ml-1">Etherscan</span>
+                    </EtherscanLink>
+                  )}
+                </div>
 
+                <a
+                  href="https://etherhook.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="text-sm rounded-full bg-blue-50 text-blue-900 px-3 py-1 inline-flex mx-auto items-center gap-1 hover:underline hover:bg-blue-100 transition-colors">
+                    <SparklesIcon className="h-4 w-4" />
+                    <span>
+                      <span className="font-bold">New</span>: Set up webhooks +
+                      notifications for this function
+                    </span>
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </span>
+                </a>
+              </div>
               <div className="text-sm font-normal text-slate-500">
                 {currentFunction.inputs.length === 0 &&
                 currentFunction.stateMutability !== "payable" ? (
@@ -283,11 +301,13 @@ function AddressPage({ serverSideError }: { serverSideError: string }) {
                 <Alert
                   variant="warning"
                   title="You're about to pay a smart contract."
-                  body="This function sends funds from
-your wallet to the contract. Etherfunk may
-have bugs. Verify the
-transaction data before submitting the
-transaction"
+                  body={
+                    <>
+                      This function sends funds from your wallet to the
+                      contract. Etherfunk may have bugs. Verify the data before
+                      submitting the transaction.
+                    </>
+                  }
                   className="mb-5"
                 />
               )}

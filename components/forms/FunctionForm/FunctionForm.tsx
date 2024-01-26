@@ -181,7 +181,7 @@ export function FunctionForm({
             />
           </div>
           <p className="mt-1 text-sm text-slate-500">
-            The amount of Ether to send with the transaction.
+            The amount of ETH to send.
           </p>
         </div>
       )}
