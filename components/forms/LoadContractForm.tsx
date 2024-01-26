@@ -1,6 +1,7 @@
 import { FormEventHandler, useState } from "react";
 import { Button } from "../common/buttons/Button";
 import { Input } from "../common/form/Input";
+import { ArrowRightIcon } from "@heroicons/react/outline";
 
 export function LoadContractForm({
   onSubmit,
@@ -31,8 +32,12 @@ export function LoadContractForm({
         className="mb-3 border-slate-500"
         size="large"
       />
-      <Button loading={loading} size="large" className="w-full font-medium">
-        Load contract
+      <Button
+        loading={loading}
+        size="large"
+        className="w-full font-medium flex gap-2 hover:gap-2.5 transition-all"
+      >
+        Load contract <ArrowRightIcon className="w-4 h-4" />
       </Button>
     </form>
   );
