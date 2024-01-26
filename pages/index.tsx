@@ -47,17 +47,17 @@ const Home: NextPage = () => {
       <div className="h-full">
         <main className="flex align-center justify-center flex-col h-full">
           <section className="-mt-32">
-            <div className="text-center mb-8">
+            <div className="text-center mb-5">
               <Image
                 src="/etherfunk-logo-70x70.png"
-                width={70}
-                height={70}
+                width={50}
+                height={50}
                 alt="Etherfunk logo"
                 className="rounded"
               />
             </div>
 
-            <div className="text-center mb-3">
+            <div className="text-center mb-5">
               <a
                 href="https://etherhook.io"
                 target="_blank"
@@ -74,8 +74,8 @@ const Home: NextPage = () => {
               </a>
             </div>
 
-            <div className="mb-10">
-              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-3 text-center">
+            <div className="mb-12">
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mb-6 text-center">
                 Read/Write for{" "}
                 <span className="relative">
                   every
@@ -101,7 +101,7 @@ const Home: NextPage = () => {
             <ExploreSection />
           </div>
 
-          <p className="mt-5 text-center text-slate-500 text-xs">
+          <p className="mt-5 mb-5 text-center text-slate-500 text-xs">
             Powered by Etherscan
           </p>
         </footer>
